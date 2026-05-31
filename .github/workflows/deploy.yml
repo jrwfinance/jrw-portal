@@ -1,0 +1,17 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy broker admin
+        run: npx -y netlify-cli@latest deploy --prod --dir deploy/broker-admin --site ${{ secrets.NETLIFY_BROKER_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      - name: Deploy client portal
+        run: npx -y netlify-cli@latest deploy --prod --dir deploy/client-portal --site ${{ secrets.NETLIFY_PORTAL_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}

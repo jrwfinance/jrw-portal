@@ -5,6 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JRW Finance – Broker Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Sentry error tracking — replace DSN with your own from sentry.io -->
+<script
+  src="https://js.sentry-cdn.com/YOUR_BROKER_ADMIN_DSN_HERE.min.js"
+  crossorigin="anonymous"
+  data-lazy="no"
+></script>
+<script>
+  if (window.Sentry) {
+    Sentry.init({
+      dsn: "YOUR_BROKER_ADMIN_DSN_HERE",
+      environment: window.location.hostname === 'admin.jrwfinance.com.au' ? 'production' : 'development',
+      tracesSampleRate: 0.2,
+    });
+  }
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;background:#eef0e4;color:#222;}
@@ -504,6 +519,32 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
         <div class="profile-field" style="margin-top:2px;"><label>Business / licence details</label><input class="profile-input" id="bp-licence" placeholder="Credit Representative 574207 – ACL 486112"></div>
         <button class="save-btn" onclick="saveBrokerProfile()">Save changes</button>
       </div>
+      <div class="settings-section" style="margin-top:18px;">
+        <div class="settings-section-title">Two-factor authentication (2FA)</div>
+        <div style="font-size:12px;color:#666;margin-bottom:14px;line-height:1.6;">Add an extra layer of security. Once enabled, you'll need your authenticator app every time you sign in.</div>
+        <div id="mfa-status-wrap">
+          <div id="mfa-setup-area" style="display:none;">
+            <div style="font-size:12px;color:#444;margin-bottom:10px;">Scan this QR code with <strong>Google Authenticator</strong>, <strong>Authy</strong>, or any TOTP app:</div>
+            <div id="mfa-qr" style="margin-bottom:12px;"></div>
+            <div style="font-size:11px;color:#888;margin-bottom:10px;">Or enter this code manually: <code id="mfa-secret" style="background:#f5f5f0;padding:2px 6px;border-radius:4px;font-size:11px;user-select:all;"></code></div>
+            <div class="profile-field">
+              <label>Enter the 6-digit code to confirm</label>
+              <input class="profile-input" type="text" inputmode="numeric" maxlength="6" id="mfa-enroll-code" placeholder="000000" style="letter-spacing:0.12em;font-size:16px;">
+            </div>
+            <div id="mfa-enroll-error" style="font-size:11px;color:#c0321f;display:none;margin-top:4px;"></div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+              <button class="save-btn" onclick="confirmMfaEnrollment()">Activate 2FA</button>
+              <button onclick="cancelMfaSetup()" style="background:none;border:0.5px solid #ddd;color:#888;border-radius:7px;padding:8px 14px;font-size:12px;cursor:pointer;">Cancel</button>
+            </div>
+          </div>
+          <div id="mfa-enrolled-msg" style="display:none;background:#EAF3DE;border:0.5px solid #97C459;border-radius:8px;padding:11px 14px;display:none;align-items:center;gap:10px;">
+            <span style="font-size:15px;">✅</span>
+            <div style="flex:1;"><div style="font-size:12px;font-weight:600;color:#27500A;">2FA is active</div><div style="font-size:11px;color:#4a7a20;">Your account is protected by an authenticator app.</div></div>
+            <button onclick="removeMfa()" style="background:none;border:0.5px solid #c0d8a0;color:#4a7a20;font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;">Remove</button>
+          </div>
+          <button id="btn-setup-mfa" onclick="startMfaSetup()" class="save-btn" style="background:#f5f5f0;color:#444;border:0.5px solid #ddd;">Enable 2FA</button>
+        </div>
+      </div>
     </div>
 
     <!-- Client detail view -->
@@ -872,6 +913,28 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
       <div style="margin-bottom:11px;"><label class="field-label">Confirm password</label><input class="login-input" type="password" id="br-confirm-password" placeholder="Repeat password" autocomplete="new-password"></div>
       <div id="br-reset-error" style="font-size:11px;color:#c0321f;display:none;margin-bottom:8px;"></div>
       <button class="login-btn" id="br-btn-set-password" onclick="setBrokerNewPassword()">Set new password</button>
+    </div>
+  </div>
+</div>
+
+<!-- MFA verification screen -->
+<div id="broker-mfa-screen" style="display:none;min-height:100vh;align-items:center;justify-content:center;background:#1e2203;padding:2rem;">
+  <div style="width:100%;max-width:320px;">
+    <div style="background:#2e3105;border:0.5px solid rgba(223,231,119,0.15);border-radius:14px;padding:28px;">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="width:44px;height:44px;background:rgba(223,231,119,0.12);border-radius:12px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="#dfe777" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="#dfe777" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div style="font-size:17px;font-weight:700;color:#f0f4c0;margin-bottom:4px;">Two-factor authentication</div>
+        <div style="font-size:11px;color:#a8b87a;line-height:1.6;">Enter the 6-digit code from your authenticator app.</div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="field-label">Authentication code</label>
+        <input class="login-input" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" id="mfa-code" placeholder="000000" autocomplete="one-time-code" style="text-align:center;font-size:22px;letter-spacing:0.15em;">
+      </div>
+      <div id="mfa-error" style="font-size:11px;color:#c0321f;display:none;margin-bottom:8px;text-align:center;"></div>
+      <button class="login-btn" id="btn-mfa-submit" onclick="submitMfaCode()">Verify</button>
+      <p style="text-align:center;margin-top:14px;"><button type="button" onclick="showLoginScreen()" style="background:none;border:none;font-size:11px;color:#a8b87a;cursor:pointer;text-decoration:underline;text-underline-offset:2px;">← Back to sign in</button></p>
     </div>
   </div>
 </div>
@@ -1470,6 +1533,57 @@ async function saveClientProfile() {
   document.getElementById('cd-name').textContent=`${updates.first_name} ${updates.last_name}`;
   showToast('Profile saved ✓');
 }
+/* ── MFA setup ── */
+let _mfaEnrollId = null;
+
+async function loadMfaStatus() {
+  const {data} = await _sb.auth.mfa.listFactors();
+  const enrolled = data?.totp?.length > 0;
+  document.getElementById('btn-setup-mfa').style.display = enrolled ? 'none' : 'inline-flex';
+  document.getElementById('mfa-enrolled-msg').style.display = enrolled ? 'flex' : 'none';
+  document.getElementById('mfa-setup-area').style.display = 'none';
+}
+
+async function startMfaSetup() {
+  document.getElementById('btn-setup-mfa').style.display = 'none';
+  document.getElementById('mfa-setup-area').style.display = 'block';
+  document.getElementById('mfa-enroll-code').value = '';
+  document.getElementById('mfa-enroll-error').style.display = 'none';
+  const {data, error} = await _sb.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'JRW Admin' });
+  if (error || !data) { showToast('Failed to start 2FA setup'); return; }
+  _mfaEnrollId = data.id;
+  // Render QR code as an img
+  document.getElementById('mfa-qr').innerHTML = `<img src="${data.totp.qr_code}" style="width:160px;height:160px;border-radius:8px;border:3px solid #fff;" alt="QR code">`;
+  document.getElementById('mfa-secret').textContent = data.totp.secret;
+}
+
+async function confirmMfaEnrollment() {
+  const code = document.getElementById('mfa-enroll-code').value.trim();
+  if (code.length !== 6) { document.getElementById('mfa-enroll-error').textContent = 'Enter the 6-digit code from your app.'; document.getElementById('mfa-enroll-error').style.display = 'block'; return; }
+  const {data: ch} = await _sb.auth.mfa.challenge({ factorId: _mfaEnrollId });
+  if (!ch?.id) { document.getElementById('mfa-enroll-error').textContent = 'Challenge failed. Try again.'; document.getElementById('mfa-enroll-error').style.display = 'block'; return; }
+  const {error} = await _sb.auth.mfa.verify({ factorId: _mfaEnrollId, challengeId: ch.id, code });
+  if (error) { document.getElementById('mfa-enroll-error').textContent = 'Incorrect code — try again.'; document.getElementById('mfa-enroll-error').style.display = 'block'; return; }
+  showToast('2FA enabled ✓');
+  loadMfaStatus();
+}
+
+function cancelMfaSetup() {
+  if (_mfaEnrollId) _sb.auth.mfa.unenroll({ factorId: _mfaEnrollId });
+  _mfaEnrollId = null;
+  loadMfaStatus();
+}
+
+async function removeMfa() {
+  if (!confirm('Remove 2FA from your account? This will make your account less secure.')) return;
+  const {data} = await _sb.auth.mfa.listFactors();
+  const factor = data?.totp?.[0];
+  if (!factor) return;
+  await _sb.auth.mfa.unenroll({ factorId: factor.id });
+  showToast('2FA removed');
+  loadMfaStatus();
+}
+
 async function saveBrokerProfile() {
   if(demoGuard())return;
   const first=document.getElementById('bp-first').value.trim();
@@ -1744,6 +1858,7 @@ function goToDashboard() {
 
 let _prevView = 'dashboard'; // track where user opened settings from
 function openBrokerSettings() {
+  loadMfaStatus();
   document.getElementById('broker-pp').classList.remove('open');
   // Remember where we came from
   _prevView = (currentClient) ? 'client' : 'dashboard';
@@ -1804,14 +1919,49 @@ document.getElementById('pp-signout-btn').addEventListener('click', () => {
 document.getElementById('btn-login').addEventListener('click', doLogin);
 document.getElementById('login-password').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 document.getElementById('btn-signout').addEventListener('click', () => { isDemoMode=false; currentBroker=null; allClients=[]; currentClient=null; _sb.auth.signOut(); showLoginScreen(); });
+let _mfaFactorId = null;
+
 async function doLogin() {
   const email=document.getElementById('login-email').value.trim(), pw=document.getElementById('login-password').value;
   if(!email||!pw){showLoginError('Enter your email and password.');return;}
   const btn=document.getElementById('btn-login'); btn.textContent='Signing in…'; btn.disabled=true;
-  const {error}=await _sb.auth.signInWithPassword({email,password:pw});
+  const {data, error}=await _sb.auth.signInWithPassword({email,password:pw});
   btn.textContent='Sign in as broker'; btn.disabled=false;
-  if(error) showLoginError(error.message||'Incorrect email or password.');
+  if(error){showLoginError(error.message||'Incorrect email or password.');return;}
+  // Check if MFA is required
+  const {data: aal}=await _sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  if(aal && aal.nextLevel==='aal2' && aal.nextLevel!==aal.currentLevel){
+    const {data: factors}=await _sb.auth.mfa.listFactors();
+    const totp=factors?.totp?.[0];
+    if(totp){ _mfaFactorId=totp.id; showMfaScreen(); return; }
+  }
+  // No MFA required — auth state change will handle the rest
 }
+
+function showMfaScreen(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('broker-forgot-screen').style.display='none';
+  document.getElementById('broker-mfa-screen').style.display='flex';
+  document.getElementById('mfa-code').value='';
+  document.getElementById('mfa-error').style.display='none';
+  setTimeout(()=>document.getElementById('mfa-code').focus(), 100);
+}
+
+async function submitMfaCode(){
+  const code=document.getElementById('mfa-code').value.trim();
+  if(code.length!==6){document.getElementById('mfa-error').textContent='Enter the 6-digit code.';document.getElementById('mfa-error').style.display='block';return;}
+  const btn=document.getElementById('btn-mfa-submit'); btn.textContent='Verifying…'; btn.disabled=true;
+  const {data:ch}=await _sb.auth.mfa.challenge({factorId:_mfaFactorId});
+  if(!ch?.id){btn.textContent='Verify';btn.disabled=false;document.getElementById('mfa-error').textContent='Challenge failed. Try again.';document.getElementById('mfa-error').style.display='block';return;}
+  const {error}=await _sb.auth.mfa.verify({factorId:_mfaFactorId,challengeId:ch.id,code});
+  btn.textContent='Verify'; btn.disabled=false;
+  if(error){document.getElementById('mfa-error').textContent='Incorrect code. Try again.';document.getElementById('mfa-error').style.display='block';return;}
+  document.getElementById('broker-mfa-screen').style.display='none';
+  // Auth state change fires automatically after verify
+}
+
+// Also trigger verify on Enter key
+document.getElementById('mfa-code').addEventListener('keydown',e=>{if(e.key==='Enter')submitMfaCode();});
 
 /* ── Demo mode ── */
 function loadBrokerDemoData() {
@@ -1895,9 +2045,9 @@ async function handleBrokerPhotoUpload(input) {
 }
 
 /* ── Display helpers ── */
-function showLoading() { document.getElementById('loading-overlay').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('login-screen').style.display='none'; document.getElementById('broker-forgot-screen').style.display='none'; document.getElementById('broker-reset-screen').style.display='none'; document.getElementById('broker-signup-screen').style.display='none'; }
+function showLoading() { document.getElementById('loading-overlay').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('login-screen').style.display='none'; document.getElementById('broker-forgot-screen').style.display='none'; document.getElementById('broker-reset-screen').style.display='none'; document.getElementById('broker-signup-screen').style.display='none'; document.getElementById('broker-mfa-screen').style.display='none'; }
 function showDashboard() { document.getElementById('loading-overlay').style.display='none'; document.getElementById('app').style.display='flex'; document.getElementById('login-screen').style.display='none'; document.getElementById('broker-forgot-screen').style.display='none'; document.getElementById('broker-reset-screen').style.display='none'; document.getElementById('view-dashboard').style.display='block'; document.getElementById('view-client').style.display='none'; document.getElementById('view-broker-settings').style.display='none'; document.getElementById('view-master-admin').style.display='none'; document.getElementById('tb-crumb').textContent='All Clients'; }
-function showLoginScreen() { document.getElementById('loading-overlay').style.display='none'; document.getElementById('app').style.display='none'; document.getElementById('broker-forgot-screen').style.display='none'; document.getElementById('broker-reset-screen').style.display='none'; document.getElementById('broker-signup-screen').style.display='none'; document.getElementById('login-screen').style.display='flex'; }
+function showLoginScreen() { document.getElementById('loading-overlay').style.display='none'; document.getElementById('app').style.display='none'; document.getElementById('broker-forgot-screen').style.display='none'; document.getElementById('broker-reset-screen').style.display='none'; document.getElementById('broker-signup-screen').style.display='none'; document.getElementById('broker-mfa-screen').style.display='none'; document.getElementById('login-screen').style.display='flex'; }
 function showContentSpinner() { document.getElementById('content-spinner').classList.add('active'); }
 function hideContentSpinner() { document.getElementById('content-spinner').classList.remove('active'); }
 function showLoginError(msg) { const el=document.getElementById('login-error'); el.textContent=msg||'Incorrect email or password.'; el.style.display='block';   el.style.color='#c0321f';

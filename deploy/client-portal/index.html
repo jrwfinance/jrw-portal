@@ -6,6 +6,26 @@
 <title>JRW Finance – Client Portal</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<!-- Sentry error tracking — replace DSN with your own from sentry.io -->
+<script
+  src="https://js.sentry-cdn.com/YOUR_CLIENT_PORTAL_DSN_HERE.min.js"
+  crossorigin="anonymous"
+  data-lazy="no"
+></script>
+<script>
+  if (window.Sentry) {
+    Sentry.init({
+      dsn: "YOUR_CLIENT_PORTAL_DSN_HERE",
+      environment: window.location.hostname === 'portal.jrwfinance.com.au' ? 'production' : 'development',
+      tracesSampleRate: 0.2,
+      beforeSend(event) {
+        // Don't send events in demo mode
+        if (window._isDemoMode) return null;
+        return event;
+      }
+    });
+  }
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;background:#eef0e4;color:#222;}
