@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__3fb52d29-8dbe-4e88-bb79-4beec1d0205f__apply_migration",
+      "mcp__3fb52d29-8dbe-4e88-bb79-4beec1d0205f__execute_sql",
+      "Bash(curl -s -X POST \"https://amhevyrewmlmwxncujmp.supabase.co/functions/v1/notify-client\" -H \"Content-Type: application/json\" -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtaGV2eXJld21sbXd4bmN1am1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NTI4MjQsImV4cCI6MjA5MjEyODgyNH0._I0pevBOVM7YMKPRkKTKiYVCUyAkAkYPr0ZzfW4qlt0\" -d '{\"client_id\":\"00000000-0000-0000-0000-000000000000\",\"title\":\"Test alert\",\"body\":\"Testing the notification system\",\"alert_type\":\"info\",\"dismissed\":false}')",
+      "Bash(nslookup -type=TXT resend._domainkey.jrwfinance.com.au)",
+      "Bash(nslookup -type=CNAME resend._domainkey.jrwfinance.com.au)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(Get-Command npx -ErrorAction SilentlyContinue)",
+      "PowerShell($nodePath = \\(Get-ItemProperty \"HKLM:\\\\SOFTWARE\\\\nodejs\" -ErrorAction SilentlyContinue\\).installpath; if \\(-not $nodePath\\) { $nodePath = \"$env:ProgramFiles\\\\nodejs\" }; if \\(Test-Path \"$nodePath\\\\node.exe\"\\) { Write-Host \"Found at: $nodePath\" } else { Get-ChildItem \"C:\\\\Program Files\" -Filter \"node.exe\" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 FullName })",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; node --version; npx --version)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "PowerShell($env:PATH = \"C:\\\\Program Files\\\\nodejs;$env:PATH\"; cd \"C:\\\\Users\\\\Joshua Weiler\\\\Desktop\\\\Claude\\\\AI Projects\\\\Client Portal\\\\deploy\\\\broker-admin\"; npx -y netlify-cli@latest deploy --prod --dir . --site 07baf1be-f624-4dcb-ab41-f0092ed1da02 2>&1 | Select-String -Pattern \"Deploy is live|Error|failed|Production URL\" | ForEach-Object { $_.Line })"
+    ]
+  }
+}
