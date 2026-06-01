@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { Card } from '@/components/ui/Card'
 import { useToast } from '@/components/ui/Toast'
 
-export function ClientProfile({ client, isDemo, onRefresh }) {
+export function ClientProfile({ client, isDemo, onRefresh, onDelete }) {
   const [form, setForm] = useState({
     first_name:          client.first_name || '',
     last_name:           client.last_name  || '',
@@ -57,6 +57,23 @@ export function ClientProfile({ client, isDemo, onRefresh }) {
             {saving ? 'Saving…' : 'Save changes'}
           </button>
         </form>
+      </Card>
+
+      {/* Danger zone */}
+      <Card className="border-red-100">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-red-400 mb-3">Danger zone</div>
+        <p className="text-[12px] text-gray-500 mb-3">Permanently delete this client and all their data. This cannot be undone.</p>
+        <button
+          onClick={async () => {
+            if (isDemo) { toast('Demo mode — changes not saved'); return }
+            if (!confirm(`Delete ${client.first_name} ${client.last_name}? This cannot be undone.`)) return
+            await supabase.from('clients').delete().eq('id', client.id)
+            toast(`${client.first_name} deleted`)
+            onDelete?.()
+          }}
+          className="px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg text-[12px] font-semibold hover:bg-red-100 transition-colors">
+          Delete client
+        </button>
       </Card>
     </div>
   )

@@ -22,7 +22,7 @@ const TABS = [
   { id:'audit',     label:'Audit log', icon:ClipboardList },
 ]
 
-export function ClientDetail({ client: initialClient, broker, isDemo, onBack }) {
+export function ClientDetail({ client: initialClient, broker, isDemo, onBack, onDelete }) {
   const [activeTab, setActiveTab]       = useState('overview')
   const [collapsed, setCollapsed]       = useState(false)
   const [data, setData]                 = useState({ props:[], loans:[], goals:[], notes:[], alerts:[], documents:[] })
@@ -122,7 +122,7 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack }) 
           : activeTab==='planning'  ? <Planning  {...sharedProps} goals={data.goals} broker={broker}/>
           : activeTab==='notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
           : activeTab==='documents' ? <Documents {...sharedProps} documents={data.documents}/>
-          : activeTab==='profile'   ? <ClientProfile {...sharedProps}/>
+          : activeTab==='profile'   ? <ClientProfile {...sharedProps} onDelete={() => { onDelete?.(); onBack() }}/>
           : activeTab==='audit'     ? <AuditLog  {...sharedProps}/>
           : null
         }

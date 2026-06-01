@@ -70,7 +70,7 @@ export function App() {
         {view === 'settings'
           ? <BrokerSettings broker={broker} onBack={handleBack} isDemo={isDemo}/>
           : selected
-            ? <ClientDetail key={selected.id} client={selected} broker={broker} isDemo={isDemo} onBack={handleBack}/>
+            ? <ClientDetail key={selected.id} client={selected} broker={broker} isDemo={isDemo} onBack={handleBack} onDelete={() => { handleBack(); loadBrokerApp(session.user.id) }}/>
             : <ClientGrid clients={clients} onSelect={handleSelectClient} isDemo={isDemo} onCreateClient={() => setShowCreateClient(true)}/>
         }
       </div>

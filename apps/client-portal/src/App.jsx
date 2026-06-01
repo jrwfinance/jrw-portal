@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAuth }               from '@/hooks/useAuth'
 import { useClientData }         from '@/hooks/useClientData'
+import { useRealtime }           from '@/hooks/useRealtime'
 import { supabase }              from '@/lib/supabase'
 import { DEMO_DATA }             from '@/lib/demo'
 import { Sidebar }               from '@/components/layout/Sidebar'
@@ -37,6 +38,15 @@ export function App() {
   const [screen, setScreen]               = useState('login') // login | forgot | reset | signup
   const { show: toast }                   = useToast()
 
+  // Realtime — reload specific data when broker makes changes
+  const handleRealtimeUpdate = useCallback((table) => {
+    if (isDemo) return
+    load()
+    if (table === 'alerts') toast('New alert from your broker')
+    if (table === 'notes')  toast('New message from your broker')
+  }, [isDemo, load, toast])
+  useRealtime(!isDemo ? session?.user?.id : null, handleRealtimeUpdate)
+
   // Detect URL-based flows (password reset, invite signup)
   useEffect(() => {
     const hash   = window.location.hash
@@ -51,8 +61,8 @@ export function App() {
   useEffect(() => {
     const profile = isDemo ? demoData?.profile : data.profile
     if (!profile?.broker_id) return
-    supabase.from('brokers').select('logo_url').eq('id', profile.broker_id).single()
-      .then(({ data: b }) => { if (b?.logo_url) setBrokerLogoUrl(b.logo_url) })
+    supabase.from('brokers').select('photo_url').eq('id', profile.broker_id).single()
+      .then(({ data: b }) => { if (b?.photo_url) setBrokerLogoUrl(b.photo_url) })
   }, [data.profile, isDemo, demoData])
 
   const handleDemoMode = useCallback(() => { setIsDemo(true); setDemoData(DEMO_DATA) }, [])
@@ -116,7 +126,7 @@ export function App() {
               {activeTab==='goals'     && <Goals     data={activeData}/>}
               {activeTab==='notes'     && <Notes     data={activeData} isDemo={isDemo} onRefresh={load}/>}
               {activeTab==='alerts'    && <Alerts    data={activeData} onDismiss={handleDismissAlert}/>}
-              {activeTab==='documents' && <Documents data={activeData}/>}
+              {activeTab==='documents' && <Documents data={activeData} isDemo={isDemo} onRefresh={load}/>}
               {activeTab==='research'  && <Research  data={activeData}/>}
             </motion.div>
           </AnimatePresence>
