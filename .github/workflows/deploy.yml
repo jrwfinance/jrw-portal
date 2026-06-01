@@ -1,8 +1,7 @@
 name: Deploy to Netlify
 
 on:
-  push:
-    branches: [main, master]
+  workflow_dispatch: # Manual trigger only — re-enable push on June 23rd when Netlify tokens reset
 
 jobs:
   deploy:
