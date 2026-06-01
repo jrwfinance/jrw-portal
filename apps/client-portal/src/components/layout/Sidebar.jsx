@@ -16,7 +16,7 @@ const NAV = [
   { id: 'research',   label: 'Research',   icon: Search },
 ]
 
-export function Sidebar({ active, onChange, alertCount, onSignOut }) {
+export function Sidebar({ active, onChange, alertCount, onSignOut, brokerLogoUrl, isDemo }) {
   const [collapsed, setCollapsed] = useState(false)
 
   return (
@@ -27,13 +27,18 @@ export function Sidebar({ active, onChange, alertCount, onSignOut }) {
     >
       {/* Brand */}
       <div className="px-3 py-3.5 border-b border-white/8 flex items-center gap-2 overflow-hidden flex-shrink-0">
-        <div className="w-8 h-8 bg-brand-dark rounded-md border border-brand-lime/30 flex items-center justify-center flex-shrink-0">
-          <span className="text-brand-lime font-bold text-[11px]">JW</span>
+        <div className="w-8 h-8 bg-[#2e3105] rounded-md border border-brand-lime/30 flex items-center justify-center flex-shrink-0 overflow-hidden">
+          {brokerLogoUrl
+            ? <img src={brokerLogoUrl} alt="logo" className="w-full h-full object-contain p-0.5" />
+            : <span className="text-brand-lime font-bold text-[11px]">JW</span>
+          }
         </div>
         {!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden">
             <div className="text-[13px] font-bold text-[#f0f4c0] leading-tight whitespace-nowrap">JRW Finance</div>
-            <div className="text-[10px] text-brand-muted whitespace-nowrap">Client Portal</div>
+            <div className="text-[10px] text-brand-muted whitespace-nowrap">
+              {isDemo ? 'Demo mode' : 'Client Portal'}
+            </div>
           </motion.div>
         )}
       </div>
@@ -41,11 +46,9 @@ export function Sidebar({ active, onChange, alertCount, onSignOut }) {
       {/* Nav */}
       <nav className="flex-1 px-2 py-2.5 overflow-hidden">
         {NAV.map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            onClick={() => onChange(id)}
+          <button key={id} onClick={() => onChange(id)}
             className={cn(
-              'w-full flex items-center gap-2 px-2 py-2 rounded-lg mb-0.5 text-[12px] font-medium transition-all duration-100 overflow-hidden whitespace-nowrap relative',
+              'w-full flex items-center gap-2 px-2 py-2 rounded-lg mb-0.5 text-[12px] font-medium transition-all duration-100 overflow-hidden whitespace-nowrap',
               active === id
                 ? 'bg-brand-lime/20 text-[#e8f088]'
                 : 'text-[#a0b878] hover:bg-brand-lime/10 hover:text-brand-lime'
@@ -64,17 +67,13 @@ export function Sidebar({ active, onChange, alertCount, onSignOut }) {
 
       {/* Footer */}
       <div className="px-2 pb-3 flex flex-col gap-1 flex-shrink-0">
-        <button
-          onClick={onSignOut}
-          className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[11px] text-brand-muted/70 hover:text-red-400 hover:bg-red-400/10 transition-all overflow-hidden whitespace-nowrap"
-        >
+        <button onClick={onSignOut}
+          className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[11px] text-brand-muted/70 hover:text-red-400 hover:bg-red-400/10 transition-all overflow-hidden whitespace-nowrap">
           <LogOut size={13} className="flex-shrink-0" />
-          {!collapsed && <span>Sign out</span>}
+          {!collapsed && <span>{isDemo ? 'Exit demo' : 'Sign out'}</span>}
         </button>
-        <button
-          onClick={() => setCollapsed(c => !c)}
-          className="w-full flex items-center justify-center py-1.5 text-brand-muted/40 hover:text-brand-muted transition-colors"
-        >
+        <button onClick={() => setCollapsed(c => !c)}
+          className="w-full flex items-center justify-center py-1.5 text-brand-muted/40 hover:text-brand-muted transition-colors">
           <motion.div animate={{ rotate: collapsed ? 180 : 0 }} transition={{ duration: 0.2 }}>
             <ChevronLeft size={14} />
           </motion.div>
