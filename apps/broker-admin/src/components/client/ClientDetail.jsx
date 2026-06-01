@@ -1,26 +1,40 @@
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Overview }   from './tabs/Overview'
-import { Portfolio }  from './tabs/Portfolio'
-import { Planning }   from './tabs/Planning'
-import { Notes }      from './tabs/Notes'
-import { Documents }  from './tabs/Documents'
-import { useToast }   from '@/components/ui/Toast'
-import { cn }         from '@/lib/utils'
+import { motion } from 'framer-motion'
+import { supabase }      from '@/lib/supabase'
+import { cn }            from '@/lib/utils'
+import { Overview }      from './tabs/Overview'
+import { Portfolio }     from './tabs/Portfolio'
+import { Planning }      from './tabs/Planning'
+import { Notes }         from './tabs/Notes'
+import { Documents }     from './tabs/Documents'
+import { ClientProfile } from './tabs/ClientProfile'
+import { AuditLog }      from './tabs/AuditLog'
+import { useToast }      from '@/components/ui/Toast'
+import { LayoutDashboard, Building2, Target, MessageSquare, FolderOpen, User, ClipboardList, ChevronLeft } from 'lucide-react'
 
-const TABS = ['Overview','Portfolio','Planning','Notes','Documents']
+const TABS = [
+  { id:'overview',  label:'Overview',  icon:LayoutDashboard },
+  { id:'portfolio', label:'Portfolio', icon:Building2 },
+  { id:'planning',  label:'Planning',  icon:Target },
+  { id:'notes',     label:'Messages',  icon:MessageSquare },
+  { id:'documents', label:'Documents', icon:FolderOpen },
+  { id:'profile',   label:'Profile',   icon:User },
+  { id:'audit',     label:'Audit log', icon:ClipboardList },
+]
 
 export function ClientDetail({ client: initialClient, broker, isDemo, onBack }) {
-  const [activeTab, setActiveTab] = useState('Overview')
-  const [data, setData] = useState({ props:[], loans:[], goals:[], notes:[], alerts:[], documents:[] })
-  const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab]       = useState('overview')
+  const [collapsed, setCollapsed]       = useState(false)
+  const [data, setData]                 = useState({ props:[], loans:[], goals:[], notes:[], alerts:[], documents:[] })
+  const [loading, setLoading]           = useState(true)
   const [showAlertModal, setShowAlertModal] = useState(false)
-  const [alertForm, setAlertForm] = useState({ title:'', body:'', alert_type:'info' })
-  const { show: toast } = useToast()
+  const [showCreateProp, setShowCreateProp] = useState(false)
+  const [alertForm, setAlertForm]       = useState({ title:'', body:'', alert_type:'info' })
+  const { show: toast }                 = useToast()
 
   const load = useCallback(async () => {
     if (isDemo) {
-      setData({ props: initialClient.properties||[], loans: initialClient.loans||[], goals: initialClient.goals||[], notes: initialClient.notes||[], alerts: initialClient.alerts||[], documents: initialClient.documents||[] })
+      setData({ props:initialClient.properties||[], loans:initialClient.loans||[], goals:initialClient.goals||[], notes:initialClient.notes||[], alerts:initialClient.alerts||[], documents:initialClient.documents||[] })
       setLoading(false); return
     }
     setLoading(true)
@@ -41,7 +55,7 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack }) 
 
   async function deleteAlert(id) {
     if (isDemo) { toast('Demo mode'); return }
-    await supabase.from('alerts').delete().eq('id',id)
+    await supabase.from('alerts').delete().eq('id', id)
     toast('Alert deleted'); load()
   }
 
@@ -49,34 +63,67 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack }) 
     e.preventDefault()
     if (isDemo) { toast('Demo mode'); return }
     const { error } = await supabase.from('alerts').insert({ client_id:initialClient.id, broker_id:broker?.id, ...alertForm, dismissed:false })
-    if (error) { toast('Failed','error'); return }
+    if (error) { toast('Failed', 'error'); return }
     toast('Alert sent'); setShowAlertModal(false); setAlertForm({title:'',body:'',alert_type:'info'}); load()
   }
 
   const sharedProps = { client:initialClient, broker, isDemo, onRefresh:load }
 
   return (
-    <div className="flex flex-col flex-1 overflow-hidden">
-      {/* Tabs */}
-      <div className="flex border-b border-gray-200 bg-white px-5 flex-shrink-0">
-        {TABS.map(t=>(
-          <button key={t} onClick={()=>setActiveTab(t)}
-            className={cn('px-4 py-3 text-[12px] font-medium border-b-2 transition-colors -mb-px',
-              activeTab===t ? 'border-brand-dark text-brand-dark' : 'border-transparent text-gray-400 hover:text-gray-600')}>
-            {t}
-            {t==='Notes' && data.notes.length>0 && <span className="ml-1.5 text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{data.notes.length}</span>}
+    <div className="flex flex-1 overflow-hidden">
+      {/* Left sidebar */}
+      <motion.aside animate={{ width: collapsed ? 48 : 160 }} transition={{ duration:0.2, ease:'easeInOut' }}
+        className="bg-brand-dark flex-shrink-0 flex flex-col overflow-hidden h-full">
+        {/* Client name */}
+        <div className="px-3 py-3 border-b border-white/8 flex items-center gap-2 overflow-hidden flex-shrink-0">
+          <div className="w-7 h-7 rounded-full bg-brand-lime flex items-center justify-center text-[10px] font-bold text-brand-dark flex-shrink-0">
+            {(initialClient.first_name?.[0]||'')+(initialClient.last_name?.[0]||'')}
+          </div>
+          {!collapsed && (
+            <motion.div initial={{opacity:0}} animate={{opacity:1}} className="overflow-hidden min-w-0">
+              <div className="text-[11px] font-semibold text-[#f0f4c0] truncate">{initialClient.first_name} {initialClient.last_name}</div>
+              <div className="text-[9px] text-brand-muted truncate">Client since {initialClient.client_since||'–'}</div>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 px-1.5 py-2 overflow-hidden">
+          {TABS.map(({ id, label, icon:Icon }) => (
+            <button key={id} onClick={() => setActiveTab(id)}
+              className={cn('w-full flex items-center gap-2 px-2 py-2 rounded-lg mb-0.5 text-[11px] font-medium transition-all overflow-hidden whitespace-nowrap',
+                activeTab===id ? 'bg-brand-lime/20 text-[#e8f088]' : 'text-[#a0b878] hover:bg-brand-lime/10 hover:text-brand-lime')}>
+              <Icon size={13} className="flex-shrink-0"/>
+              {!collapsed && <span>{label}</span>}
+              {id==='notes' && data.notes.length>0 && !collapsed && (
+                <span className="ml-auto bg-brand-lime/20 text-brand-lime text-[9px] px-1.5 rounded-full">{data.notes.length}</span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        {/* Collapse toggle */}
+        <div className="px-2 pb-3 flex-shrink-0">
+          <button onClick={() => setCollapsed(c => !c)}
+            className="w-full flex items-center justify-center py-1.5 text-brand-muted/40 hover:text-brand-muted transition-colors">
+            <motion.div animate={{ rotate: collapsed ? 180 : 0 }} transition={{ duration:0.2 }}>
+              <ChevronLeft size={13}/>
+            </motion.div>
           </button>
-        ))}
-      </div>
+        </div>
+      </motion.aside>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-5">
-        {loading ? <div className="flex justify-center py-16"><div className="w-6 h-6 border-2 border-brand-dark/20 border-t-brand-dark rounded-full animate-spin"/></div>
-          : activeTab==='Overview'  ? <Overview  {...sharedProps} props={data.props} loans={data.loans} alerts={data.alerts} onDeleteAlert={deleteAlert} onAddAlert={()=>setShowAlertModal(true)}/>
-          : activeTab==='Portfolio' ? <Portfolio {...sharedProps} props={data.props} loans={data.loans}/>
-          : activeTab==='Planning'  ? <Planning  {...sharedProps} goals={data.goals}/>
-          : activeTab==='Notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
-          : activeTab==='Documents' ? <Documents {...sharedProps} documents={data.documents}/>
+        {loading
+          ? <div className="flex justify-center py-16"><div className="w-6 h-6 border-2 border-brand-dark/20 border-t-brand-dark rounded-full animate-spin"/></div>
+          : activeTab==='overview'  ? <Overview  {...sharedProps} props={data.props} loans={data.loans} alerts={data.alerts} onDeleteAlert={deleteAlert} onAddAlert={()=>setShowAlertModal(true)}/>
+          : activeTab==='portfolio' ? <Portfolio {...sharedProps} props={data.props} loans={data.loans}/>
+          : activeTab==='planning'  ? <Planning  {...sharedProps} goals={data.goals}/>
+          : activeTab==='notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
+          : activeTab==='documents' ? <Documents {...sharedProps} documents={data.documents}/>
+          : activeTab==='profile'   ? <ClientProfile {...sharedProps}/>
+          : activeTab==='audit'     ? <AuditLog  {...sharedProps}/>
           : null
         }
       </div>
