@@ -11,7 +11,7 @@ export function Overview({ client, props, loans, alerts, onDeleteAlert, onAddAle
   return (
     <div className="space-y-4 animate-fade-up">
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[['Portfolio value',fmt(tv)],['Total equity',fmt(eq)],['Avg rate', avgRate?avgRate+'%':'–']].map(([l,v])=>(
           <div key={l} className="bg-gray-50 rounded-xl p-3">
             <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">{l}</div>

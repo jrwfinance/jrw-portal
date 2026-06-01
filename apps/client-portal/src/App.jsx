@@ -36,6 +36,7 @@ export function App() {
   const [demoData, setDemoData]           = useState(null)
   const [brokerLogoUrl, setBrokerLogoUrl] = useState(null)
   const [profileOpen, setProfileOpen]     = useState(false)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const [screen, setScreen]               = useState('login') // login | forgot | reset | signup
   const { show: toast }                   = useToast()
 
@@ -106,16 +107,18 @@ export function App() {
         profile={activeData.profile}
         crumb={TAB_LABELS[activeTab]}
         onAvatarClick={() => setProfileOpen(p => !p)}
+        onMenuClick={() => setMobileSidebarOpen(true)}
       />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
           active={activeTab}
-          onChange={tab => { setActiveTab(tab); setProfileOpen(false) }}
+          onChange={tab => { setActiveTab(tab); setProfileOpen(false); setMobileSidebarOpen(false) }}
           alertCount={activeData.alerts.length}
           onSignOut={handleSignOut}
           brokerLogoUrl={brokerLogoUrl}
           isDemo={isDemo}
-        />
+          mobileOpen={mobileSidebarOpen}
+          onMobileClose={() => setMobileSidebarOpen(false)}/>
         <main className="flex-1 overflow-y-auto px-5 py-5 pb-16 min-w-0">
           <ErrorBoundary>
             <AnimatePresence mode="wait">

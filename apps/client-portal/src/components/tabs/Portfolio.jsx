@@ -26,7 +26,7 @@ function PropertyCard({ property, loans }) {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
         <div className="bg-gray-50 rounded-lg p-2.5">
           <div className="text-[9px] text-gray-400 uppercase tracking-wider mb-1">Est. Value</div>
           <div className="text-[14px] font-semibold text-gray-800">{fmt(property.estimated_value)}</div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { fmt, initials } from '@/lib/utils'
+import { fmt, initials, fmtDate } from '@/lib/utils'
 import { Search, UserPlus } from 'lucide-react'
 
 function ClientCard({ client, onClick }) {
@@ -32,7 +32,8 @@ function ClientCard({ client, onClick }) {
         </div>
         <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-100">
           <span className="text-[10px] text-gray-400">{client.properties?.length||0} {(client.properties?.length||0)===1?'property':'properties'}</span>
-          <span className="text-[10px] text-gray-400">Client since {client.client_since||'–'}</span>
+          <span className="text-[10px] text-gray-400">Client since {client.client_since||"–"}</span>
+          {client.last_active_at && <span className="text-[10px] text-gray-400">Active {fmtDate(client.last_active_at)}</span>}
           {!client.onboarded_at && <span className="text-[9px] font-semibold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Invite pending</span>}
         </div>
       </div>
@@ -52,7 +53,7 @@ export function ClientGrid({ clients, onSelect, onCreateClient, isDemo }) {
   return (
     <div className="flex-1 overflow-y-auto p-5">
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-3 mb-5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
         {[['Clients', clients.length],['Properties', totalProps],['Loans', totalLoans],['Total portfolio', fmt(totalPortfolio)]].map(([l,v])=>(
           <div key={l} className="bg-white border border-gray-200/80 rounded-xl px-4 py-3">
             <div className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">{l}</div>

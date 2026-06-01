@@ -10,9 +10,10 @@ import { Planning }            from './tabs/Planning'
 import { Notes }               from './tabs/Notes'
 import { Documents }           from './tabs/Documents'
 import { ClientProfile }       from './tabs/ClientProfile'
+import { Research }  from './tabs/Research'
 import { AuditLog }            from './tabs/AuditLog'
 import { useToast }            from '@/components/ui/Toast'
-import { LayoutDashboard, Building2, Target, MessageSquare, FolderOpen, User, ClipboardList, ChevronLeft } from 'lucide-react'
+import { LayoutDashboard, Building2, Target, MessageSquare, FolderOpen, User, ClipboardList, ChevronLeft, Search } from 'lucide-react'
 
 const TABS = [
   { id:'overview',  label:'Overview',  icon:LayoutDashboard },
@@ -21,7 +22,8 @@ const TABS = [
   { id:'notes',     label:'Messages',  icon:MessageSquare },
   { id:'documents', label:'Documents', icon:FolderOpen },
   { id:'profile',   label:'Profile',   icon:User },
-  { id:'audit',     label:'Audit log', icon:ClipboardList },
+  { id:'research',  label:'Research',  icon:Search },
+  { id:'audit',     label:'Audit log', icon:ClipboardList },,
 ]
 
 export function ClientDetail({ client: initialClient, broker, isDemo, onBack, onDelete }) {
@@ -40,13 +42,14 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
     }
     setLoading(true)
     const id = initialClient.id
-    const [props, loans, goals, notes, alerts, documents] = await Promise.all([
+    const [props, loans, goals, notes, alerts, documents, researchRows] = await Promise.all([
       supabase.from('properties').select('*').eq('client_id',id).order('created_at'),
       supabase.from('loans').select('*').eq('client_id',id).order('created_at'),
       supabase.from('goals').select('*').eq('client_id',id).order('created_at'),
       supabase.from('notes').select('*').eq('client_id',id).order('created_at',{ascending:false}),
       supabase.from('alerts').select('*').eq('client_id',id).eq('dismissed',false).order('created_at',{ascending:false}),
       supabase.from('documents').select('*').eq('client_id',id).order('created_at',{ascending:false}),
+      supabase.from('research').select('*').eq('client_id',id).order('created_at',{ascending:false}),
     ])
     setData({ props:props.data||[], loans:loans.data||[], goals:goals.data||[], notes:notes.data||[], alerts:alerts.data||[], documents:documents.data||[] })
     setLoading(false)
@@ -124,7 +127,8 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
             : activeTab==='notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
             : activeTab==='documents' ? <Documents {...sharedProps} documents={data.documents}/>
             : activeTab==='profile'   ? <ClientProfile {...sharedProps} onDelete={() => { onDelete?.(); onBack() }}/>
-            : activeTab==='audit'     ? <AuditLog  {...sharedProps}/>
+            : activeTab==='research'  ? <Research  {...sharedProps} research={data.research}/>
+          : activeTab==='audit'     ? <AuditLog  {...sharedProps}/>
             : null
           }
         </ErrorBoundary>

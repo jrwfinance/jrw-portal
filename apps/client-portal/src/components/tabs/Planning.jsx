@@ -138,7 +138,7 @@ export function Planning({ data }) {
               <div className="text-[13px] font-semibold text-gray-800">{p.address}</div>
               <span className="text-[10px] text-gray-400">{p.suburb}</span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <div className="bg-gray-50 rounded-lg p-2.5 col-span-2">
                 <div className="text-[9px] text-gray-400 uppercase tracking-wider mb-1">Est. value</div>
                 <input type="number" value={sc.value} onChange={e=>setSc(p.id,'value',+e.target.value)}
@@ -163,7 +163,7 @@ export function Planning({ data }) {
       {/* Projection inputs */}
       <Card className="mb-4">
         <CardTitle className="mb-3">Projection settings</CardTitle>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[['Growth rate %','growthRate',growthRate,setGrowthRate],['Proposed repayment','proposedRepay',proposedRepay,setProposedRepay],['Annual lump sum','lumpSum',lumpSum,setLumpSum]].map(([lbl,key,val,setter])=>(
             <div key={key}>
               <label className="block text-[10px] text-gray-400 uppercase tracking-wider mb-1">{lbl}</label>
@@ -175,7 +175,7 @@ export function Planning({ data }) {
       </Card>
 
       {/* Charts */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
         <Card className="col-span-2">
           <CardTitle className="mb-3">10-year equity projection</CardTitle>
           <div style={{height:200}}><canvas ref={chartRef}/></div>

@@ -64,7 +64,7 @@ export function Overview({ data, onDismissAlert }) {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-2.5 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-4">
         <StatTile label="Portfolio value"    value={fmt(totalValue)}   />
         <StatTile label="Total owing"        value={fmt(totalOwing)}   />
         <StatTile label="Total equity"       value={fmt(totalEquity)}  />
