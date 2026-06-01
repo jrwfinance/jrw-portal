@@ -37,7 +37,7 @@ export function Planning({ data }) {
 
   // Derived totals
   const totalValue   = properties.reduce((s, p) => s + (scenario[p.id]?.value || 0), 0)
-  const totalOwing   = loans.reduce((s, l) => s + (l.current_balance || 0), 0)
+  const totalOwing   = loans.reduce((s, l) => s + (l.loan_balance || 0), 0)
   const totalEquity  = totalValue - totalOwing
   const totalRepay   = properties.reduce((s, p) => s + (scenario[p.id]?.repayment || 0), 0)
   const avgRate      = loans.length ? loans.reduce((s, l) => s + (l.interest_rate || 0), 0) / loans.length : 6
@@ -131,7 +131,7 @@ export function Planning({ data }) {
       {properties.map(p => {
         const sc = scenario[p.id] || { value: p.estimated_value||0, repayment: 0 }
         const loan = loans.find(l => l.property_id === p.id)
-        const equity = sc.value - (loan?.current_balance || 0)
+        const equity = sc.value - (loan?.loan_balance || 0)
         return (
           <Card key={p.id} className="mb-3">
             <div className="flex items-center justify-between mb-3">

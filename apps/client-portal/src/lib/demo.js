@@ -11,8 +11,8 @@ export const DEMO_DATA = {
     { id: 'prop-002', client_id: 'demo-client-001', address: '18 Elm Road', suburb: 'New Farm', state: 'QLD', postcode: '4005', property_type: 'Investment', estimated_value: 620000, weekly_rent: 620, photo_url: null },
   ],
   loans: [
-    { id: 'loan-001', client_id: 'demo-client-001', property_id: 'prop-001', lender: 'Commonwealth Bank', current_balance: 595000, interest_rate: 5.89, rate_type: 'Fixed', fixed_expiry_date: new Date(Date.now()+120*86400000).toISOString().split('T')[0], loan_type: 'P&I', monthly_repayment: 3890 },
-    { id: 'loan-002', client_id: 'demo-client-001', property_id: 'prop-002', lender: 'ANZ', current_balance: 410000, interest_rate: 6.12, rate_type: 'Variable', fixed_expiry_date: null, loan_type: 'IO', monthly_repayment: 2090 },
+    { id: 'loan-001', client_id: 'demo-client-001', property_id: 'prop-001', lender: 'Commonwealth Bank', loan_balance: 595000, interest_rate: 5.89, rate_type: 'Fixed', fixed_expiry_date: new Date(Date.now()+120*86400000).toISOString().split('T')[0], loan_type: 'P&I', monthly_repayment: 3890 },
+    { id: 'loan-002', client_id: 'demo-client-001', property_id: 'prop-002', lender: 'ANZ', loan_balance: 410000, interest_rate: 6.12, rate_type: 'Variable', fixed_expiry_date: null, loan_type: 'IO', monthly_repayment: 2090 },
   ],
   goals: [
     { id: 'goal-001', what: 'Refinance CBA loan to a better rate', why: 'Save $3k–$5k per year', status: 'On Track', progress: 35, target_date: new Date(Date.now()+60*86400000).toISOString().split('T')[0] },

@@ -47,7 +47,7 @@ export function Overview({ data, onDismissAlert }) {
   const { profile, properties, loans, alerts } = data
 
   const totalValue    = useMemo(() => properties.reduce((s, p) => s + (p.estimated_value || 0), 0), [properties])
-  const totalOwing    = useMemo(() => loans.reduce((s, l) => s + (l.current_balance || 0), 0), [loans])
+  const totalOwing    = useMemo(() => loans.reduce((s, l) => s + (l.loan_balance || 0), 0), [loans])
   const totalEquity   = totalValue - totalOwing
   const monthlyRepay  = useMemo(() => loans.reduce((s, l) => s + (l.monthly_repayment || 0), 0), [loans])
 
@@ -98,7 +98,7 @@ export function Overview({ data, onDismissAlert }) {
                   <div className="text-[11px] text-gray-400">{fmt(l.monthly_repayment)}/mo</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[13px] font-medium text-gray-800">{fmt(l.current_balance)}</div>
+                  <div className="text-[13px] font-medium text-gray-800">{fmt(l.loan_balance)}</div>
                   <Badge variant={l.rate_type === 'Fixed' ? 'amber' : 'blue'} className="mt-0.5">
                     {l.rate_type}
                   </Badge>

@@ -5,7 +5,7 @@ import { Building2, TrendingUp } from 'lucide-react'
 
 function PropertyCard({ property, loans }) {
   const propLoans = loans.filter(l => l.property_id === property.id)
-  const totalOwing = propLoans.reduce((s, l) => s + (l.current_balance || 0), 0)
+  const totalOwing = propLoans.reduce((s, l) => s + (l.loan_balance || 0), 0)
   const equity = (property.estimated_value || 0) - totalOwing
   const lvr = property.estimated_value > 0 ? (totalOwing / property.estimated_value * 100).toFixed(1) : null
 
