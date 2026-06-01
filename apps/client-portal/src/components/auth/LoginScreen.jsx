@@ -25,14 +25,8 @@ export function LoginScreen({ onDemo }) {
         transition={{ duration: 0.4, ease: 'easeOut' }}
         className="w-full max-w-sm"
       >
-        <div className="flex items-center gap-3 mb-8 justify-center">
-          <div className="w-9 h-9 bg-brand-dark rounded-lg border border-brand-lime/30 flex items-center justify-center">
-            <span className="text-brand-lime font-bold text-sm">JW</span>
-          </div>
-          <div>
-            <div className="text-sm font-bold text-[#f0f4c0] leading-tight">JRW Finance</div>
-            <div className="text-[10px] text-brand-muted">Client Portal</div>
-          </div>
+        <div className="flex justify-center mb-8">
+          <img src="/logo.png" alt="JRW Finance" className="w-24 h-24 rounded-2xl object-cover shadow-lg" />
         </div>
 
         <div className="bg-brand-dark border border-brand-lime/10 rounded-2xl p-7 shadow-2xl">

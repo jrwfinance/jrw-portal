@@ -27,11 +27,8 @@ export function Sidebar({ active, onChange, alertCount, onSignOut, brokerLogoUrl
     >
       {/* Brand */}
       <div className="px-3 py-3.5 border-b border-white/8 flex items-center gap-2 overflow-hidden flex-shrink-0">
-        <div className="w-8 h-8 bg-[#2e3105] rounded-md border border-brand-lime/30 flex items-center justify-center flex-shrink-0 overflow-hidden">
-          {brokerLogoUrl
-            ? <img src={brokerLogoUrl} alt="logo" className="w-full h-full object-contain p-0.5" />
-            : <span className="text-brand-lime font-bold text-[11px]">JW</span>
-          }
+        <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0">
+          <img src={brokerLogoUrl || '/logo.png'} alt="JRW Finance" className="w-full h-full object-cover" />
         </div>
         {!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="overflow-hidden">
