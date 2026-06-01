@@ -114,7 +114,7 @@ export function App() {
               {activeTab==='portfolio' && <Portfolio data={activeData}/>}
               {activeTab==='planning'  && <Planning  data={activeData}/>}
               {activeTab==='goals'     && <Goals     data={activeData}/>}
-              {activeTab==='notes'     && <Notes     data={activeData}/>}
+              {activeTab==='notes'     && <Notes     data={activeData} isDemo={isDemo} onRefresh={load}/>}
               {activeTab==='alerts'    && <Alerts    data={activeData} onDismiss={handleDismissAlert}/>}
               {activeTab==='documents' && <Documents data={activeData}/>}
               {activeTab==='research'  && <Research  data={activeData}/>}

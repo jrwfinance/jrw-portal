@@ -118,8 +118,8 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack }) 
         {loading
           ? <div className="flex justify-center py-16"><div className="w-6 h-6 border-2 border-brand-dark/20 border-t-brand-dark rounded-full animate-spin"/></div>
           : activeTab==='overview'  ? <Overview  {...sharedProps} props={data.props} loans={data.loans} alerts={data.alerts} onDeleteAlert={deleteAlert} onAddAlert={()=>setShowAlertModal(true)}/>
-          : activeTab==='portfolio' ? <Portfolio {...sharedProps} props={data.props} loans={data.loans}/>
-          : activeTab==='planning'  ? <Planning  {...sharedProps} goals={data.goals}/>
+          : activeTab==='portfolio' ? <Portfolio {...sharedProps} props={data.props} loans={data.loans} broker={broker}/>
+          : activeTab==='planning'  ? <Planning  {...sharedProps} goals={data.goals} broker={broker}/>
           : activeTab==='notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
           : activeTab==='documents' ? <Documents {...sharedProps} documents={data.documents}/>
           : activeTab==='profile'   ? <ClientProfile {...sharedProps}/>

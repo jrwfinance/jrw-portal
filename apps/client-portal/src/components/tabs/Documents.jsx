@@ -18,10 +18,10 @@ export function Documents({ data }) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-[13px] font-medium text-gray-800 truncate">{d.name || d.file_name}</div>
-            <div className="text-[11px] text-gray-400">{fmtDate(d.created_at)}</div>
+            <div className="text-[11px] text-gray-400">{d.category} · {fmtDate(d.created_at)}</div>
           </div>
-          {d.url && (
-            <a href={d.url} target="_blank" rel="noopener noreferrer"
+          {d.file_url && (
+            <a href={d.file_url} target="_blank" rel="noopener noreferrer"
               className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
               <ExternalLink size={14} />
             </a>

@@ -7,6 +7,7 @@ import { LoginScreen }       from '@/components/auth/LoginScreen'
 import { ClientGrid }        from '@/components/dashboard/ClientGrid'
 import { ClientDetail }      from '@/components/client/ClientDetail'
 import { BrokerSettings }    from '@/components/settings/BrokerSettings'
+import { CreateClientModal } from '@/components/dashboard/CreateClientModal'
 import { Toaster }           from '@/components/ui/Toast'
 
 export function App() {
@@ -70,10 +71,11 @@ export function App() {
           ? <BrokerSettings broker={broker} onBack={handleBack} isDemo={isDemo}/>
           : selected
             ? <ClientDetail key={selected.id} client={selected} broker={broker} isDemo={isDemo} onBack={handleBack}/>
-            : <ClientGrid clients={clients} onSelect={handleSelectClient} isDemo={isDemo} onCreateClient={()=>{}}/>
+            : <ClientGrid clients={clients} onSelect={handleSelectClient} isDemo={isDemo} onCreateClient={() => setShowCreateClient(true)}/>
         }
       </div>
       <Toaster/>
+      {showCreateClient && !isDemo && <CreateClientModal broker={broker} onClose={()=>setShowCreateClient(false)} onCreated={()=>loadBrokerApp(session.user.id)}/>}
     </div>
   )
 }

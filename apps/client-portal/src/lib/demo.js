@@ -4,11 +4,11 @@ export const DEMO_DATA = {
     email: 'testclient@jrwfinance.com.au', mobile: '0400 000 001',
     residential_address: '42 Test Street, Brisbane QLD 4000',
     broker_name: 'Josh Weiler', broker_email: 'jrwfinancegroup@gmail.com',
-    client_since: 2023, photo_url: null,
+    client_since: 2023, photo_file_url: null,
   },
   properties: [
-    { id: 'prop-001', client_id: 'demo-client-001', address: '42 Test Street', suburb: 'Brisbane', state: 'QLD', postcode: '4000', property_type: 'PPOR', estimated_value: 850000, weekly_rent: null, photo_url: null },
-    { id: 'prop-002', client_id: 'demo-client-001', address: '18 Elm Road', suburb: 'New Farm', state: 'QLD', postcode: '4005', property_type: 'Investment', estimated_value: 620000, weekly_rent: 620, photo_url: null },
+    { id: 'prop-001', client_id: 'demo-client-001', address: '42 Test Street', suburb: 'Brisbane', state: 'QLD', postcode: '4000', property_type: 'PPOR', estimated_value: 850000, weekly_rent: null, photo_file_url: null },
+    { id: 'prop-002', client_id: 'demo-client-001', address: '18 Elm Road', suburb: 'New Farm', state: 'QLD', postcode: '4005', property_type: 'Investment', estimated_value: 620000, weekly_rent: 620, photo_file_url: null },
   ],
   loans: [
     { id: 'loan-001', client_id: 'demo-client-001', property_id: 'prop-001', lender: 'Commonwealth Bank', loan_balance: 595000, interest_rate: 5.89, rate_type: 'Fixed', fixed_expiry_date: new Date(Date.now()+120*86400000).toISOString().split('T')[0], loan_type: 'P&I', monthly_repayment: 3890 },
@@ -27,8 +27,8 @@ export const DEMO_DATA = {
     { id: 'alert-002', created_at: new Date().toISOString(), title: 'Equity milestone reached', alert_type: 'positive', dismissed: false, body: 'Combined portfolio equity has crossed $450,000 — great progress. This unlocks refinancing options worth reviewing.' },
   ],
   documents: [
-    { id: 'doc-001', created_at: new Date(Date.now()-30*86400000).toISOString(), name: 'CBA Loan Contract 2023', url: null },
-    { id: 'doc-002', created_at: new Date(Date.now()-60*86400000).toISOString(), name: 'Annual Portfolio Review 2024', url: null },
+    { id: 'doc-001', created_at: new Date(Date.now()-30*86400000).toISOString(), name: 'CBA Loan Contract 2023', file_url: null },
+    { id: 'doc-002', created_at: new Date(Date.now()-60*86400000).toISOString(), name: 'Annual Portfolio Review 2024', file_url: null },
   ],
   research: [
     { id: 'res-001', address: '7/22 Brunswick Street', suburb: 'Fortitude Valley QLD 4006', asking_price: 595000, status: 'Shortlisted' },

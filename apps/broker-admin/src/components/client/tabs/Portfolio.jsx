@@ -4,6 +4,8 @@ import { fmt, fmtDate, parseCurrency } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/Toast'
+import { AddPropertyModal } from '../AddPropertyModal'
+import { Plus } from 'lucide-react'
 
 function EditField({ label, value, onSave, type='text' }) {
   const [v, setV] = useState(value ?? '')
@@ -17,7 +19,8 @@ function EditField({ label, value, onSave, type='text' }) {
   )
 }
 
-export function Portfolio({ client, props, loans, isDemo, onRefresh }) {
+export function Portfolio({ client, props, loans, broker, isDemo, onRefresh }) {
+  const [showAddProp, setShowAddProp] = useState(false)
   const { show: toast } = useToast()
 
   async function saveProp(id, field, value) {
@@ -48,15 +51,25 @@ export function Portfolio({ client, props, loans, isDemo, onRefresh }) {
     toast('Loan deleted'); onRefresh()
   }
 
-  if (props.length === 0) return <Card className="text-center py-12 text-gray-400 text-sm">No properties yet.</Card>
-
   return (
-    <div className="space-y-4 animate-fade-up">
+    <div className="animate-fade-up">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-[13px] font-semibold text-gray-700">{props.length} {props.length===1?'property':'properties'}</span>
+        {!isDemo && (
+          <button onClick={()=>setShowAddProp(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-dark text-brand-lime text-[11px] font-semibold rounded-lg hover:bg-brand-darker transition-colors">
+            <Plus size={12}/> Add property
+          </button>
+        )}
+      </div>
+
+      {props.length === 0 && <div className="text-center py-12 text-gray-400 text-sm bg-white rounded-xl border border-gray-200">No properties yet.</div>}
+
       {props.map(p => {
         const loan = loans.find(l=>l.property_id===p.id)
         const eq = (p.estimated_value||0)-(loan?.loan_balance||0)
         return (
-          <Card key={p.id}>
+          <Card key={p.id} className="mb-4">
             <div className="flex items-start justify-between mb-3">
               <div>
                 <div className="text-[13px] font-semibold text-gray-800">{p.address}</div>
@@ -69,7 +82,7 @@ export function Portfolio({ client, props, loans, isDemo, onRefresh }) {
               <span className="text-[11px] text-gray-400 w-32">Equity</span>
               <span className="text-[12px] font-semibold text-green-700">{fmt(eq)}</span>
             </div>
-            {p.weekly_rent && <EditField label="Weekly rent" value={fmt(p.weekly_rent)} onSave={v=>saveProp(p.id,'weekly_rent',parseCurrency(v))}/>}
+            {p.weekly_rent != null && <EditField label="Weekly rent" value={fmt(p.weekly_rent)} onSave={v=>saveProp(p.id,'weekly_rent',parseCurrency(v))}/>}
 
             {loan ? (
               <div className="mt-3 bg-gray-50 rounded-xl p-3">
@@ -88,7 +101,7 @@ export function Portfolio({ client, props, loans, isDemo, onRefresh }) {
                 </div>
                 {loan.rate_type==='fixed' && <EditField label="Fixed expiry" value={loan.fixed_expiry_date||''} onSave={v=>saveLoan(loan.id,'fixed_expiry_date',v)} type="date"/>}
                 <EditField label="Loan type" value={loan.loan_type} onSave={v=>saveLoan(loan.id,'loan_type',v)}/>
-                <EditField label="LVR" value={`${loan.lvr||''}%`} onSave={v=>saveLoan(loan.id,'lvr',parseFloat(v))}/>
+                <EditField label="LVR" value={loan.lvr!=null?`${loan.lvr}%`:''} onSave={v=>saveLoan(loan.id,'lvr',parseFloat(v))}/>
                 <button onClick={()=>deleteLoan(loan.id)} className="mt-2 text-[10px] text-red-400 hover:text-red-600 transition-colors">Delete loan</button>
               </div>
             ) : <p className="text-[11px] text-gray-400 mt-2">No loan linked.</p>}
@@ -97,6 +110,8 @@ export function Portfolio({ client, props, loans, isDemo, onRefresh }) {
           </Card>
         )
       })}
+
+      {showAddProp && <AddPropertyModal client={client} broker={broker} onClose={()=>setShowAddProp(false)} onCreated={onRefresh}/>}
     </div>
   )
 }

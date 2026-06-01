@@ -17,7 +17,9 @@ export function Notes({ client, notes, broker, isDemo, onRefresh }) {
     setSending(true)
     const { error } = await supabase.from('notes').insert({
       client_id: client.id, body: body.trim(), is_broker_note: true,
-      author_name: broker?.name || 'Josh Weiler', category: 'General'
+      author_name: broker?.name || 'Josh Weiler',
+      author_initials: (broker?.name || 'Josh Weiler').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase(),
+      category: 'General'
     })
     if (error) toast('Failed to send', 'error')
     else { setBody(''); onRefresh() }
