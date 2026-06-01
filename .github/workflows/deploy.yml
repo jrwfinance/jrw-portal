@@ -26,7 +26,9 @@ jobs:
         run: npm run build:admin
 
       - name: Deploy client portal
-        run: npx -y netlify-cli@latest deploy --prod --dir apps/client-portal/dist --site ${{ secrets.NETLIFY_PORTAL_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npx -y netlify-cli@latest deploy --prod --dir dist --site ${{ secrets.NETLIFY_PORTAL_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        working-directory: apps/client-portal
 
       - name: Deploy broker admin
-        run: npx -y netlify-cli@latest deploy --prod --dir apps/broker-admin/dist --site ${{ secrets.NETLIFY_BROKER_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npx -y netlify-cli@latest deploy --prod --dir dist --site ${{ secrets.NETLIFY_BROKER_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        working-directory: apps/broker-admin
