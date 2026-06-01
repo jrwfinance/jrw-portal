@@ -1,0 +1,16 @@
+{
+  "name": "@jrw/client-portal",
+  "private": true,
+  "scripts": {
+    "dev":     "vite",
+    "build":   "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "chart.js": "^4.4.1"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

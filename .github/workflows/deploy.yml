@@ -10,8 +10,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy broker admin
-        run: npx -y netlify-cli@latest deploy --prod --dir deploy/broker-admin --site ${{ secrets.NETLIFY_BROKER_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build client portal
+        run: npm run build:portal
+
+      - name: Build broker admin
+        run: npm run build:admin
 
       - name: Deploy client portal
-        run: npx -y netlify-cli@latest deploy --prod --dir deploy/client-portal --site ${{ secrets.NETLIFY_PORTAL_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npx -y netlify-cli@latest deploy --prod --dir apps/client-portal/dist --site ${{ secrets.NETLIFY_PORTAL_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      - name: Deploy broker admin
+        run: npx -y netlify-cli@latest deploy --prod --dir apps/broker-admin/dist --site ${{ secrets.NETLIFY_BROKER_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}

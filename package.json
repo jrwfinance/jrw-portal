@@ -1,17 +1,15 @@
 {
-  "name": "jrw-finance-portal",
-  "version": "1.0.0",
-  "description": "JRW Finance client portal and broker admin",
+  "name": "jrw-finance",
+  "private": true,
+  "workspaces": [
+    "apps/client-portal",
+    "apps/broker-admin"
+  ],
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui",
-    "test:report": "playwright show-report"
-  },
-  "keywords": [],
-  "author": "Josh Weiler",
-  "license": "ISC",
-  "devDependencies": {
-    "@playwright/test": "^1.60.0"
+    "dev:portal":   "npm run dev --workspace=apps/client-portal",
+    "dev:admin":    "npm run dev --workspace=apps/broker-admin",
+    "build":        "npm run build --workspace=apps/client-portal && npm run build --workspace=apps/broker-admin",
+    "build:portal": "npm run build --workspace=apps/client-portal",
+    "build:admin":  "npm run build --workspace=apps/broker-admin"
   }
 }
