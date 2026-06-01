@@ -33,6 +33,7 @@ function ClientCard({ client, onClick }) {
         <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-100">
           <span className="text-[10px] text-gray-400">{client.properties?.length||0} {(client.properties?.length||0)===1?'property':'properties'}</span>
           <span className="text-[10px] text-gray-400">Client since {client.client_since||'–'}</span>
+          {!client.onboarded_at && <span className="text-[9px] font-semibold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Invite pending</span>}
         </div>
       </div>
     </motion.div>

@@ -12,6 +12,7 @@ import { LoginScreen }           from '@/components/auth/LoginScreen'
 import { SignupScreen }          from '@/components/auth/SignupScreen'
 import { ForgotPasswordScreen }  from '@/components/auth/ForgotPasswordScreen'
 import { PasswordResetScreen }   from '@/components/auth/PasswordResetScreen'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import { Toaster, useToast }     from '@/components/ui/Toast'
 import { Overview }    from '@/components/tabs/Overview'
 import { Portfolio }   from '@/components/tabs/Portfolio'
@@ -116,20 +117,22 @@ export function App() {
           isDemo={isDemo}
         />
         <main className="flex-1 overflow-y-auto px-5 py-5 pb-16 min-w-0">
-          <AnimatePresence mode="wait">
-            <motion.div key={activeTab}
-              initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}
-              transition={{duration:0.18}}>
-              {activeTab==='overview'  && <Overview  data={activeData} onDismissAlert={handleDismissAlert}/>}
-              {activeTab==='portfolio' && <Portfolio data={activeData}/>}
-              {activeTab==='planning'  && <Planning  data={activeData}/>}
-              {activeTab==='goals'     && <Goals     data={activeData}/>}
-              {activeTab==='notes'     && <Notes     data={activeData} isDemo={isDemo} onRefresh={load}/>}
-              {activeTab==='alerts'    && <Alerts    data={activeData} onDismiss={handleDismissAlert}/>}
-              {activeTab==='documents' && <Documents data={activeData} isDemo={isDemo} onRefresh={load}/>}
-              {activeTab==='research'  && <Research  data={activeData}/>}
-            </motion.div>
-          </AnimatePresence>
+          <ErrorBoundary>
+            <AnimatePresence mode="wait">
+              <motion.div key={activeTab}
+                initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}
+                transition={{duration:0.18}}>
+                {activeTab==='overview'  && <Overview  data={activeData} onDismissAlert={handleDismissAlert}/>}
+                {activeTab==='portfolio' && <Portfolio data={activeData}/>}
+                {activeTab==='planning'  && <Planning  data={activeData}/>}
+                {activeTab==='goals'     && <Goals     data={activeData}/>}
+                {activeTab==='notes'     && <Notes     data={activeData} isDemo={isDemo} onRefresh={load}/>}
+                {activeTab==='alerts'    && <Alerts    data={activeData} onDismiss={handleDismissAlert}/>}
+                {activeTab==='documents' && <Documents data={activeData} isDemo={isDemo} onRefresh={load}/>}
+                {activeTab==='research'  && <Research  data={activeData}/>}
+              </motion.div>
+            </AnimatePresence>
+          </ErrorBoundary>
         </main>
       </div>
 

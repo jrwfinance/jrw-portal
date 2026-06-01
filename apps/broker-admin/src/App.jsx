@@ -8,6 +8,7 @@ import { ClientGrid }        from '@/components/dashboard/ClientGrid'
 import { ClientDetail }      from '@/components/client/ClientDetail'
 import { BrokerSettings }    from '@/components/settings/BrokerSettings'
 import { CreateClientModal } from '@/components/dashboard/CreateClientModal'
+import { ErrorBoundary }     from '@/components/ui/ErrorBoundary'
 import { Toaster }           from '@/components/ui/Toast'
 
 export function App() {
@@ -15,9 +16,10 @@ export function App() {
   const [broker, setBroker]               = useState(null)
   const [clients, setClients]             = useState([])
   const [selected, setSelected]           = useState(null)
-  const [view, setView]                   = useState('dashboard') // dashboard | settings
+  const [view, setView]                   = useState('dashboard')
   const [isDemo, setIsDemo]               = useState(false)
   const [appLoading, setAppLoading]       = useState(false)
+  const [showCreateClient, setShowCreateClient] = useState(false)
 
   const loadBrokerApp = useCallback(async (userId) => {
     setAppLoading(true)
@@ -38,17 +40,13 @@ export function App() {
 
   useEffect(() => { if (session) loadBrokerApp(session.user.id) }, [session, loadBrokerApp])
 
-  const handleSignOut = () => {
+  const handleSignOut      = () => {
     if (isDemo) { setIsDemo(false); setClients([]); setSelected(null); setView('dashboard'); return }
     supabase.auth.signOut()
   }
-
-  const handleDemo = () => { setIsDemo(true); setClients(DEMO_CLIENTS) }
-
+  const handleDemo         = () => { setIsDemo(true); setClients(DEMO_CLIENTS) }
   const handleSelectClient = (c) => { setSelected(c); setView('dashboard') }
-
-  const handleBack = () => { setSelected(null); setView('dashboard') }
-
+  const handleBack         = () => { setSelected(null); setView('dashboard') }
   const handleOpenSettings = () => { setSelected(null); setView('settings') }
 
   if (authLoading) return <Spinner/>
@@ -67,15 +65,25 @@ export function App() {
         view={view}
       />
       <div className="flex flex-1 overflow-hidden">
-        {view === 'settings'
-          ? <BrokerSettings broker={broker} onBack={handleBack} isDemo={isDemo}/>
-          : selected
-            ? <ClientDetail key={selected.id} client={selected} broker={broker} isDemo={isDemo} onBack={handleBack} onDelete={() => { handleBack(); loadBrokerApp(session.user.id) }}/>
-            : <ClientGrid clients={clients} onSelect={handleSelectClient} isDemo={isDemo} onCreateClient={() => setShowCreateClient(true)}/>
-        }
+        <ErrorBoundary>
+          {view === 'settings'
+            ? <BrokerSettings broker={broker} onBack={handleBack} isDemo={isDemo}
+                onBrokerUpdate={updated => setBroker(updated)}/>
+            : selected
+              ? <ClientDetail key={selected.id} client={selected} broker={broker} isDemo={isDemo}
+                  onBack={handleBack}
+                  onDelete={() => { handleBack(); if (session) loadBrokerApp(session.user.id) }}/>
+              : <ClientGrid clients={clients} onSelect={handleSelectClient} isDemo={isDemo}
+                  onCreateClient={() => setShowCreateClient(true)}/>
+          }
+        </ErrorBoundary>
       </div>
       <Toaster/>
-      {showCreateClient && !isDemo && <CreateClientModal broker={broker} onClose={()=>setShowCreateClient(false)} onCreated={()=>loadBrokerApp(session.user.id)}/>}
+      {showCreateClient && !isDemo && (
+        <CreateClientModal broker={broker}
+          onClose={() => setShowCreateClient(false)}
+          onCreated={() => { setShowCreateClient(false); if (session) loadBrokerApp(session.user.id) }}/>
+      )}
     </div>
   )
 }

@@ -1,15 +1,17 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { supabase }      from '@/lib/supabase'
-import { cn }            from '@/lib/utils'
-import { Overview }      from './tabs/Overview'
-import { Portfolio }     from './tabs/Portfolio'
-import { Planning }      from './tabs/Planning'
-import { Notes }         from './tabs/Notes'
-import { Documents }     from './tabs/Documents'
-import { ClientProfile } from './tabs/ClientProfile'
-import { AuditLog }      from './tabs/AuditLog'
-import { useToast }      from '@/components/ui/Toast'
+import { supabase }            from '@/lib/supabase'
+import { cn }                  from '@/lib/utils'
+import { useBrokerRealtime }   from '@/hooks/useBrokerRealtime'
+import { ErrorBoundary }       from '@/components/ui/ErrorBoundary'
+import { Overview }            from './tabs/Overview'
+import { Portfolio }           from './tabs/Portfolio'
+import { Planning }            from './tabs/Planning'
+import { Notes }               from './tabs/Notes'
+import { Documents }           from './tabs/Documents'
+import { ClientProfile }       from './tabs/ClientProfile'
+import { AuditLog }            from './tabs/AuditLog'
+import { useToast }            from '@/components/ui/Toast'
 import { LayoutDashboard, Building2, Target, MessageSquare, FolderOpen, User, ClipboardList, ChevronLeft } from 'lucide-react'
 
 const TABS = [
@@ -28,7 +30,6 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
   const [data, setData]                 = useState({ props:[], loans:[], goals:[], notes:[], alerts:[], documents:[] })
   const [loading, setLoading]           = useState(true)
   const [showAlertModal, setShowAlertModal] = useState(false)
-  const [showCreateProp, setShowCreateProp] = useState(false)
   const [alertForm, setAlertForm]       = useState({ title:'', body:'', alert_type:'info' })
   const { show: toast }                 = useToast()
 
@@ -53,6 +54,10 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
 
   useEffect(() => { load() }, [load])
 
+  // Live updates when client posts notes or uploads docs
+  const handleRealtime = useCallback(() => load(), [load])
+  useBrokerRealtime(!isDemo ? initialClient.id : null, handleRealtime)
+
   async function deleteAlert(id) {
     if (isDemo) { toast('Demo mode'); return }
     await supabase.from('alerts').delete().eq('id', id)
@@ -74,7 +79,6 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
       {/* Left sidebar */}
       <motion.aside animate={{ width: collapsed ? 48 : 160 }} transition={{ duration:0.2, ease:'easeInOut' }}
         className="bg-brand-dark flex-shrink-0 flex flex-col overflow-hidden h-full">
-        {/* Client name */}
         <div className="px-3 py-3 border-b border-white/8 flex items-center gap-2 overflow-hidden flex-shrink-0">
           <div className="w-7 h-7 rounded-full bg-brand-lime flex items-center justify-center text-[10px] font-bold text-brand-dark flex-shrink-0">
             {(initialClient.first_name?.[0]||'')+(initialClient.last_name?.[0]||'')}
@@ -86,8 +90,6 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
             </motion.div>
           )}
         </div>
-
-        {/* Nav */}
         <nav className="flex-1 px-1.5 py-2 overflow-hidden">
           {TABS.map(({ id, label, icon:Icon }) => (
             <button key={id} onClick={() => setActiveTab(id)}
@@ -101,8 +103,6 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
             </button>
           ))}
         </nav>
-
-        {/* Collapse toggle */}
         <div className="px-2 pb-3 flex-shrink-0">
           <button onClick={() => setCollapsed(c => !c)}
             className="w-full flex items-center justify-center py-1.5 text-brand-muted/40 hover:text-brand-muted transition-colors">
@@ -115,17 +115,19 @@ export function ClientDetail({ client: initialClient, broker, isDemo, onBack, on
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-5">
-        {loading
-          ? <div className="flex justify-center py-16"><div className="w-6 h-6 border-2 border-brand-dark/20 border-t-brand-dark rounded-full animate-spin"/></div>
-          : activeTab==='overview'  ? <Overview  {...sharedProps} props={data.props} loans={data.loans} alerts={data.alerts} onDeleteAlert={deleteAlert} onAddAlert={()=>setShowAlertModal(true)}/>
-          : activeTab==='portfolio' ? <Portfolio {...sharedProps} props={data.props} loans={data.loans} broker={broker}/>
-          : activeTab==='planning'  ? <Planning  {...sharedProps} goals={data.goals} broker={broker}/>
-          : activeTab==='notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
-          : activeTab==='documents' ? <Documents {...sharedProps} documents={data.documents}/>
-          : activeTab==='profile'   ? <ClientProfile {...sharedProps} onDelete={() => { onDelete?.(); onBack() }}/>
-          : activeTab==='audit'     ? <AuditLog  {...sharedProps}/>
-          : null
-        }
+        <ErrorBoundary>
+          {loading
+            ? <div className="flex justify-center py-16"><div className="w-6 h-6 border-2 border-brand-dark/20 border-t-brand-dark rounded-full animate-spin"/></div>
+            : activeTab==='overview'  ? <Overview  {...sharedProps} props={data.props} loans={data.loans} alerts={data.alerts} onDeleteAlert={deleteAlert} onAddAlert={()=>setShowAlertModal(true)}/>
+            : activeTab==='portfolio' ? <Portfolio {...sharedProps} props={data.props} loans={data.loans} broker={broker}/>
+            : activeTab==='planning'  ? <Planning  {...sharedProps} goals={data.goals} broker={broker}/>
+            : activeTab==='notes'     ? <Notes     {...sharedProps} notes={data.notes}/>
+            : activeTab==='documents' ? <Documents {...sharedProps} documents={data.documents}/>
+            : activeTab==='profile'   ? <ClientProfile {...sharedProps} onDelete={() => { onDelete?.(); onBack() }}/>
+            : activeTab==='audit'     ? <AuditLog  {...sharedProps}/>
+            : null
+          }
+        </ErrorBoundary>
       </div>
 
       {/* Alert modal */}
