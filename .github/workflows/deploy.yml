@@ -1,11 +1,14 @@
-name: Deploy to Netlify
+name: Deploy to Cloudflare Pages
 
 on:
-  workflow_dispatch: # Manual trigger only — re-enable push on June 23rd when Netlify tokens reset
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-portal:
     runs-on: ubuntu-latest
+    name: Deploy client portal
     steps:
       - uses: actions/checkout@v4
 
@@ -21,13 +24,38 @@ jobs:
       - name: Build client portal
         run: npm run build:portal
 
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: jrw-portal
+          directory: apps/client-portal/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-admin:
+    runs-on: ubuntu-latest
+    name: Deploy broker admin
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
       - name: Build broker admin
         run: npm run build:admin
 
-      - name: Deploy client portal
-        run: npx -y netlify-cli@latest deploy --prod --site ${{ secrets.NETLIFY_PORTAL_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        working-directory: apps/client-portal
-
-      - name: Deploy broker admin
-        run: npx -y netlify-cli@latest deploy --prod --site ${{ secrets.NETLIFY_BROKER_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        working-directory: apps/broker-admin
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: jrw-broker-admin
+          directory: apps/broker-admin/dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
