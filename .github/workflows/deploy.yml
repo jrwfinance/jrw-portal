@@ -31,7 +31,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: jrw-portal
           directory: apps/client-portal/dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-admin:
     runs-on: ubuntu-latest
@@ -58,4 +57,3 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: jrw-broker-admin
           directory: apps/broker-admin/dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
