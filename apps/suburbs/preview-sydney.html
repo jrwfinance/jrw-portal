@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mortgage Broker Sydney | Sydney Home Loans | JRW Finance</title>
+  <meta name="description" content="Expert mortgage advice for Sydney buyers, investors and refinancers. Compare 40+ lenders and get NSW home loan strategy from JRW Finance." />
+  <link rel="canonical" href="https://sydney.jrwfinance.com.au" />
+  <meta property="og:title" content="Mortgage Broker Sydney | Sydney Home Loans | JRW Finance" />
+  <meta property="og:description" content="Expert mortgage advice for Sydney buyers, investors and refinancers. Compare 40+ lenders and get NSW home loan strategy from JRW Finance." />
+  <meta property="og:url" content="https://sydney.jrwfinance.com.au" />
+  <meta property="og:type" content="website" />
+  <meta name="robots" content="index, follow" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"FinancialService","name":"JRW Finance","description":"Mortgage broker serving Sydney, New South Wales","url":"https://sydney.jrwfinance.com.au","email":"hello@jrwfinance.com.au","areaServed":{"@type":"City","name":"Sydney","containedIn":"New South Wales"},"address":{"@type":"PostalAddress","streetAddress":"Suite 302, 13/15 Wentworth Ave, Sydney NSW 2000","addressCountry":"AU"},"founder":{"@type":"Person","name":"Josh Weiler"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I buy in Sydney with a 5% deposit?","acceptedAnswer":{"@type":"Answer","text":"Yes. Through the federal First Home Guarantee scheme, eligible first home buyers can purchase with just a 5% deposit and avoid paying Lenders Mortgage Insurance (LMI) — saving $20,000–$40,000 in upfront costs. Income and property price caps apply. We assess your eligibility as part of your initial strategy call."}},{"@type":"Question","name":"How much can I borrow on a $120,000 salary in Sydney?","acceptedAnswer":{"@type":"Answer","text":"On a $120,000 gross salary with typical living expenses, most lenders will assess borrowing capacity in the range of $600,000–$720,000 — though this varies significantly by lender, your expenses, existing debts and credit history. Some specialist lenders assess income differently and may offer more. We run your numbers across multiple lenders to find your real ceiling, not just one bank's answer."}},{"@type":"Question","name":"What Sydney suburbs qualify for first home buyer stamp duty exemptions?","acceptedAnswer":{"@type":"Answer","text":"The NSW stamp duty exemption applies to the purchase price, not the suburb — new homes up to $800,000 are fully exempt, with concessions up to $1,000,000. This opens up options in many western and outer-ring suburbs including Penrith, Liverpool, Campbelltown, Blacktown and the Hills District. We map out which areas fit your budget and grant eligibility."}},{"@type":"Question","name":"How long does formal mortgage approval take in NSW?","acceptedAnswer":{"@type":"Answer","text":"Once we submit a complete application, most lenders return formal approval within 3–10 business days for standard purchases. Complex scenarios — self-employed income, unusual property types, tight timeframes — can take longer. We prepare your application thoroughly upfront to avoid back-and-forth, and we know which lenders move fastest when time matters."}},{"@type":"Question","name":"Can I use equity from my Sydney property to buy an investment?","acceptedAnswer":{"@type":"Answer","text":"Yes — and it's one of the most common strategies we help clients with. If your Sydney property has grown in value, you may be able to access that equity as a deposit for your next purchase without saving from scratch. We calculate your usable equity, identify the right loan structure and help you buy your next property without selling the first."}}]}]}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:   #0d1002;
+      --deeper: #080d01;
+      --lime:   #dfe777;
+      --lime-d: #c8d45f;
+      --mid:    #161b03;
+      --card:   #131701;
+      --border: rgba(223,231,119,0.12);
+      --text:   #dde0bc;
+      --muted:  #838b55;
+      --white:  #ffffff;
+      --max:    1100px;
+      --r:      14px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--dark); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px; line-height: 1.6;
+    }
+    a { color: var(--lime); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── REVEAL ANIMATIONS ───────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,13,1,0.94); backdrop-filter: blur(16px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+      animation: fadeIn 0.4s ease both;
+    }
+    .nav-inner {
+      max-width: var(--max); margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .nav-logo-landscape { height: 30px; display: block; object-fit: contain; }
+    .nav-logo-square    { height: 32px; width: 32px; border-radius: 7px; object-fit: cover; display: none; }
+    .nav-cta {
+      background: var(--lime); color: var(--dark);
+      padding: 9px 22px; border-radius: 50px;
+      font-weight: 700; font-size: 13px; white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--lime-d); text-decoration: none; transform: scale(1.03); }
+    @media (max-width: 560px) {
+      .nav-logo-landscape { display: none; }
+      .nav-logo-square    { display: block; }
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      position: relative; overflow: hidden;
+      background: var(--darker, #080d01);
+      border-bottom: 1px solid var(--border); padding: 96px 24px 84px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 60% 50% at 75% 20%, rgba(223,231,119,0.08) 0%, transparent 65%),
+                  radial-gradient(ellipse 40% 60% at 10% 80%, rgba(223,231,119,0.04) 0%, transparent 60%);
+      animation: fadeIn 1.2s ease both;
+    }
+    .hero-inner { max-width: var(--max); margin: 0 auto; position: relative; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(223,231,119,0.09); color: var(--lime);
+      border: 1px solid rgba(223,231,119,0.2); border-radius: 50px;
+      padding: 5px 14px; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 22px;
+      animation: fadeUp 0.5s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero h1 {
+      font-size: clamp(2.1rem, 5.5vw, 3.6rem); font-weight: 800;
+      color: var(--white); line-height: 1.08; margin-bottom: 22px;
+      letter-spacing: -0.025em;
+      animation: fadeUp 0.55s 0.18s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, #dfe777 0%, #c8d45f 50%, #dfe777 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear 1s infinite;
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted); max-width: 580px;
+      margin-bottom: 38px; line-height: 1.78; font-weight: 400;
+      animation: fadeUp 0.55s 0.26s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .hero-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+      animation: fadeUp 0.55s 0.34s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .btn-primary {
+      background: var(--lime); color: var(--dark);
+      padding: 14px 28px; border-radius: 50px;
+      font-weight: 700; font-size: 15px; display: inline-block;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 rgba(223,231,119,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--lime-d); text-decoration: none;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(223,231,119,0.2);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--text);
+      padding: 13px 28px; border-radius: 50px; font-size: 15px; display: inline-block;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { border-color: rgba(223,231,119,0.4); color: var(--lime); text-decoration: none; transform: translateY(-1px); }
+    .hero-trust {
+      margin-top: 40px; display: flex; gap: 24px; flex-wrap: wrap;
+      animation: fadeUp 0.55s 0.42s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+    .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime); flex-shrink: 0; opacity: 0.7; }
+
+    /* ── LENDER BAR ──────────────────────────────────── */
+    .lender-bar { background: var(--mid); border-bottom: 1px solid var(--border); padding: 16px 24px; }
+    .lender-bar-inner { max-width: var(--max); margin: 0 auto; }
+    .lender-bar p { font-size: 11px; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; opacity: 0.6; }
+    .lender-names { display: flex; gap: 20px; flex-wrap: wrap; }
+    .lender-name { font-size: 13px; color: var(--text); opacity: 0.4; font-weight: 500; }
+
+    /* ── SECTIONS ────────────────────────────────────── */
+    section { padding: 80px 24px; }
+    .section-inner { max-width: var(--max); margin: 0 auto; }
+    .eyebrow {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--lime); font-weight: 700; margin-bottom: 10px; opacity: 0.75;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 800; color: var(--white);
+      margin-bottom: 14px; line-height: 1.18; letter-spacing: -0.015em;
+    }
+    .section-body { font-size: 15px; color: var(--muted); max-width: 600px; line-height: 1.82; font-weight: 400; }
+
+    /* ── TEAM / ABOUT ────────────────────────────────── */
+    .team-section { background: var(--mid); }
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .team-photo-wrap {
+      position: relative; border-radius: var(--r); overflow: hidden;
+      aspect-ratio: 4/5; flex-shrink: 0;
+    }
+    .team-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .team-photo-wrap:hover img { transform: scale(1.03); }
+    .team-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,13,1,0.75) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .team-photo-areas {
+      position: absolute; bottom: 18px; left: 18px; right: 18px;
+      display: flex; flex-wrap: wrap; gap: 7px; pointer-events: none;
+    }
+    .area-pill {
+      background: rgba(8,13,1,0.72); backdrop-filter: blur(8px);
+      border: 1px solid rgba(223,231,119,0.25); border-radius: 50px;
+      color: var(--lime); font-size: 12px; font-weight: 600;
+      padding: 4px 12px; letter-spacing: 0.02em;
+    }
+    .team-content .section-body { max-width: 100%; margin-bottom: 26px; }
+    .team-points { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .team-points li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: var(--text); font-weight: 400; }
+    .team-points li::before { content: "✓"; color: var(--lime); font-weight: 700; margin-top: 2px; flex-shrink: 0; }
+
+    /* social row inside team */
+    .social-row { display: flex; align-items: center; gap: 6px; margin-top: 28px; }
+    .social-row-label { font-size: 12px; color: var(--muted); opacity: 0.6; margin-right: 4px; font-weight: 400; }
+    .social-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1px solid var(--border); color: var(--muted);
+      transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .social-icon:hover {
+      border-color: rgba(223,231,119,0.35); color: var(--lime);
+      background: rgba(223,231,119,0.06); transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    /* ── MARKET STATS ────────────────────────────────── */
+    .market-section { background: var(--dark); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 28px 0 20px; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 22px; transition: border-color 0.25s, transform 0.25s;
+    }
+    .stat-card:hover { border-color: rgba(223,231,119,0.25); transform: translateY(-2px); }
+    .stat-value { font-size: 2rem; font-weight: 800; color: var(--lime); line-height: 1; margin-bottom: 7px; }
+    .stat-label { font-size: 13px; color: var(--muted); font-weight: 400; }
+    .borrowing-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--lime); border-radius: var(--r);
+      padding: 22px 26px; font-size: 15px; color: var(--text);
+      line-height: 1.82; font-weight: 400;
+    }
+    .borrowing-box strong { color: var(--lime); font-weight: 600; }
+
+    /* ── CASE STUDIES ────────────────────────────────── */
+    .cases-section { background: var(--mid); }
+    .cases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 32px; }
+    .case-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 28px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .case-card:hover { border-color: rgba(223,231,119,0.22); transform: translateY(-3px); }
+    .case-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--lime); font-weight: 700; margin-bottom: 10px; opacity: 0.75; }
+    .case-title { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 8px; line-height: 1.4; }
+    .case-detail { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 400; }
+    .case-result { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14px; color: var(--lime); font-weight: 600; }
+
+    /* ── GRANTS ──────────────────────────────────────── */
+    .grants-section { background: var(--dark); }
+    .grants-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 32px 36px; max-width: 680px;
+      transition: border-color 0.25s;
+    }
+    .grants-card:hover { border-color: rgba(223,231,119,0.22); }
+    .grant-amount { font-size: 2.8rem; font-weight: 800; color: var(--lime); margin-bottom: 4px; line-height: 1; }
+    .grant-name { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 18px; }
+    .grant-note { font-size: 15px; color: var(--muted); line-height: 1.82; margin-bottom: 26px; font-weight: 400; }
+
+    /* ── TOOLS ───────────────────────────────────────── */
+    .tools-section { background: var(--mid); }
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 28px; }
+    .tool-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 24px; display: flex; flex-direction: column; gap: 6px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .tool-card:hover {
+      border-color: rgba(223,231,119,0.28); transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.35); text-decoration: none;
+    }
+    .tool-num { font-size: 11px; font-weight: 700; color: var(--lime); opacity: 0.55; letter-spacing: 0.1em; }
+    .tool-title { font-size: 15px; font-weight: 700; color: var(--white); }
+    .tool-desc { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 400; }
+    .tool-arrow { margin-top: auto; font-size: 13px; color: var(--lime); opacity: 0.6; font-weight: 600; }
+
+    /* ── FAQ ─────────────────────────────────────────── */
+    .faq-section { background: var(--dark); }
+    .faq-list { margin-top: 30px; display: flex; flex-direction: column; gap: 3px; }
+    .faq-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); overflow: hidden; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover { border-color: rgba(223,231,119,0.25); }
+    .faq-item.open { border-color: rgba(223,231,119,0.32); }
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 18px 22px; font-size: 15px; font-weight: 600; color: var(--white);
+    }
+    .faq-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--lime); transition: transform 0.28s cubic-bezier(0.22,1,0.36,1); }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.38s cubic-bezier(0.22,1,0.36,1), padding 0.28s ease;
+      font-size: 15px; color: var(--muted); line-height: 1.82; font-weight: 400;
+      padding: 0 22px;
+    }
+    .faq-item.open .faq-a { max-height: 600px; padding: 0 22px 20px; }
+
+    /* ── AREA COVERAGE ───────────────────────────────── */
+    .coverage-section { background: var(--mid); }
+    .coverage-text { font-size: 15px; color: var(--muted); line-height: 1.82; font-weight: 400; max-width: 640px; }
+
+    /* ── CTA BAND ────────────────────────────────────── */
+    .cta-band {
+      position: relative; overflow: hidden;
+      background: var(--deeper); border-top: 1px solid var(--border);
+      padding: 88px 24px; text-align: center;
+    }
+    .cta-band::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 50% 70% at 50% 0%, rgba(223,231,119,0.07) 0%, transparent 65%);
+    }
+    .cta-band-inner { position: relative; }
+    .cta-band h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--white); margin-bottom: 14px; letter-spacing: -0.015em; }
+    .cta-band p { font-size: 1.05rem; color: var(--muted); max-width: 480px; margin: 0 auto 32px; line-height: 1.78; font-weight: 400; }
+    .cta-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: var(--deeper);
+      border-top: 1px solid rgba(223,231,119,0.1);
+    }
+
+    .footer-brand-row {
+      max-width: var(--max); margin: 0 auto; padding: 52px 24px 40px;
+      display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 28px;
+      border-bottom: 1px solid rgba(223,231,119,0.08);
+    }
+    .footer-brand img { height: 26px; display: block; object-fit: contain; margin-bottom: 14px; }
+    .footer-brand p { font-size: 13px; line-height: 1.7; color: #6b7248; max-width: 260px; }
+    .footer-social { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+
+    .footer-links-grid {
+      max-width: var(--max); margin: 0 auto;
+      padding: 40px 24px 32px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 36px;
+      border-bottom: 1px solid rgba(223,231,119,0.08);
+    }
+    .footer-col h4 {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em;
+      color: #4a5030; font-weight: 700; margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col li a {
+      font-size: 13px; color: #6b7248; font-weight: 400;
+      transition: color 0.2s;
+    }
+    .footer-col li a:hover { color: var(--lime); text-decoration: none; }
+    .footer-col .contact-line { font-size: 13px; color: #6b7248; line-height: 1.65; }
+    .footer-col .contact-line a { color: #6b7248; font-size: 13px; }
+    .footer-col .contact-line a:hover { color: var(--lime); text-decoration: none; }
+
+    .footer-bottom {
+      max-width: var(--max); margin: 0 auto; padding: 20px 24px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start;
+    }
+    .footer-legal { font-size: 11px; color: #4a5030; line-height: 1.7; max-width: 560px; }
+    .footer-legal-links { display: flex; flex-wrap: wrap; gap: 16px; }
+    .footer-legal-links a {
+      font-size: 11px; color: #4a5030; white-space: nowrap;
+      transition: color 0.2s;
+    }
+    .footer-legal-links a:hover { color: var(--lime); text-decoration: none; }
+
+    /* ── MOBILE STICKY ───────────────────────────────── */
+    .mobile-sticky {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(22,27,3,0.96); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border); padding: 12px 16px; z-index: 200;
+    }
+    .mobile-sticky a {
+      display: block; background: var(--lime); color: var(--dark);
+      text-align: center; padding: 14px; border-radius: 12px;
+      font-weight: 700; font-size: 15px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .team-photo-wrap { display: none; }
+      .mobile-sticky { display: block; }
+      body { padding-bottom: 72px; }
+      .hero { padding: 64px 16px 64px; }
+      section { padding: 56px 16px; }
+      .footer-brand-row { flex-direction: column; gap: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .hero-badge, .hero h1, .hero-sub, .hero-actions, .hero-trust { animation: none; transition: none; opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://jrwfinance.com.au">
+      <img class="nav-logo-landscape" src="../website/public/logo-landscape.webp" alt="JRW Finance"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <img class="nav-logo-square" src="../website/public/logo.png" alt="JRW Finance" style="display:none" />
+    </a>
+    <a class="nav-cta" href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Sydney, NSW</div>
+    <h1>Home Loans &amp; Mortgage Advice<br>in <span>Sydney</span></h1>
+    <p class="hero-sub">Compare 40+ lenders with a Sydney broker who invests himself –and helps you buy sooner, borrow smarter, and avoid costly lending mistakes.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a free strategy call</a>
+      <a class="btn-ghost" href="https://jrwfinance.com.au" target="_blank" rel="noopener">Learn more</a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-item"><span class="trust-dot"></span>40+ lenders compared</span>
+      <span class="trust-item"><span class="trust-dot"></span>No broker fee</span>
+      <span class="trust-item"><span class="trust-dot"></span>Sydney specialist</span>
+    </div>
+  </div>
+</section>
+
+<!-- LENDER BAR -->
+<div class="lender-bar">
+  <div class="lender-bar-inner">
+    <p>Lenders we work with</p>
+    <div class="lender-names">
+      <span class="lender-name">CBA</span>
+      <span class="lender-name">ANZ</span>
+      <span class="lender-name">Westpac</span>
+      <span class="lender-name">NAB</span>
+      <span class="lender-name">Macquarie</span>
+      <span class="lender-name">ING</span>
+      <span class="lender-name">Suncorp</span>
+      <span class="lender-name">AMP</span>
+      <span class="lender-name">Pepper Money</span>
+      <span class="lender-name">Liberty</span>
+      <span class="lender-name">+30 more</span>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM / ABOUT -->
+<section class="team-section">
+  <div class="section-inner">
+    <div class="team-grid">
+      <div class="team-photo-wrap reveal">
+        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=900&q=80"
+          alt="Sydney property market"
+          loading="lazy" />
+        <div class="team-photo-overlay"></div>
+        <div class="team-photo-areas">
+          <span class="area-pill">Parramatta</span><span class="area-pill">Blacktown</span><span class="area-pill">Penrith</span><span class="area-pill">Liverpool</span><span class="area-pill">Castle Hill</span><span class="area-pill">Chatswood</span><span class="area-pill">Campbelltown</span><span class="area-pill">Hornsby</span>
+        </div>
+      </div>
+      <div class="team-content">
+        <span class="eyebrow reveal">Why JRW Finance</span>
+        <h2 class="section-title reveal reveal-delay-1">We help Sydney clients borrow smarter</h2>
+        <p class="section-body reveal reveal-delay-1">At JRW Finance, we work with buyers, investors and refinancers across Sydney every day. Our team compares 40+ lenders &#8211; major banks, non-banks and specialist lenders &#8211; to find the right loan for your situation, not just the closest to hand.</p>
+        <ul class="team-points reveal reveal-delay-2">
+          <li>Full market access &#8211; 40+ lenders including majors, non-banks and specialist lenders</li>
+          <li>No broker fee &#8211; lenders pay us, not you</li>
+          <li>Investment-minded strategy, not just rate shopping</li>
+          <li>Fast turnaround &#8211; we know which lenders move quickest in Sydney</li>
+          <li>End-to-end support from pre-approval to settlement</li>
+        </ul>
+        <a class="btn-primary reveal reveal-delay-3" href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a free strategy call</a>
+        <div class="social-row reveal reveal-delay-4">
+          <span class="social-row-label">Follow us</span>
+          
+    <a class="social-icon" href="https://instagram.com/jrw.finance" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a class="social-icon" href="https://tiktok.com/@jrwfinance" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+    </a>
+    <a class="social-icon" href="https://youtube.com/@jrwfinance" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+    </a>
+    <a class="social-icon" href="https://facebook.com/jrwfinance" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+    </a>
+    <a class="social-icon" href="https://open.spotify.com/show/2EZdHnX9V2pGbAQ71xcSq7" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET SNAPSHOT -->
+<section class="market-section">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Sydney Property Market</span>
+    <h2 class="section-title reveal reveal-delay-1">Sydney market snapshot &#8211; 2025</h2>
+    <p class="section-body reveal reveal-delay-1">Sydney remains Australia's most expensive property market. Demand consistently outpaces supply, particularly within 20km of the CBD. Infrastructure investment — including Metro expansions and the Western Sydney Airport precinct — continues to drive growth in outer rings.</p>
+    <div class="stats-grid">
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-value">$1,620,000</div>
+        <div class="stat-label">Median house price</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-value">$820,000</div>
+        <div class="stat-label">Median unit price</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-value">2.9%</div>
+        <div class="stat-label">Gross rental yield</div>
+      </div>
+    </div>
+    <div class="borrowing-box reveal">
+      <strong>What this means for your borrowing:</strong> At Sydney's median house price of $1,620,000, a 20% deposit to avoid LMI is $324,000 –but most buyers don't need that. You can enter with as little as 5% ($81,000) through the federal First Home Guarantee, or potentially 0% using a guarantor loan. On a $120,000 household income you may borrow around $600,000-$720,000 depending on expenses and lender. Many Sydney buyers target outer western suburbs –Penrith, Liverpool, Campbelltown –where entry prices start from $650,000.
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="cases-section">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Recent Results</span>
+    <h2 class="section-title reveal reveal-delay-1">How we've helped Sydney clients</h2>
+    <div class="cases-grid">
+      <div class="case-card reveal reveal-delay-1">
+        <div class="case-tag">First Home Buyer &#183; Sydney</div>
+        <div class="case-title">Bought with 5% deposit using the First Home Guarantee</div>
+        <div class="case-detail">Single income buyer, pre-approved in 5 days, settled in 42 days. Saved $18,000 in LMI.</div>
+        <div class="case-result">&#8594; In their home 8 weeks after first call</div>
+      </div>
+      <div class="case-card reveal reveal-delay-2">
+        <div class="case-tag">Investor &#183; Sydney</div>
+        <div class="case-title">Used equity from existing home to buy investment</div>
+        <div class="case-detail">Accessed $120,000 in usable equity. Structured as interest-only investment loan. No savings required for the deposit.</div>
+        <div class="case-result">&#8594; Second property purchased without selling</div>
+      </div>
+      <div class="case-card reveal reveal-delay-3">
+        <div class="case-tag">Refinance &#183; Sydney</div>
+        <div class="case-title">Cut rate by 0.52% and freed up $380/month</div>
+        <div class="case-detail">Loyalty tax removed. Switched lender in 3 weeks. Added offset account to reduce interest over the life of the loan.</div>
+        <div class="case-result">&#8594; $136,800 saved over 30-year loan term</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRANTS -->
+<section class="grants-section">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Government Schemes &#183; NSW</span>
+    <h2 class="section-title reveal reveal-delay-1">First home buyer benefits in New South Wales</h2>
+    <div class="grants-card reveal reveal-delay-2">
+      <div class="grant-amount">$10,000</div>
+      <div class="grant-name">First Home Owner (New Homes) Grant</div>
+      <p class="grant-note">NSW has two main schemes. The First Home Owner (New Homes) Grant provides $10,000 towards a newly built home (no-one has lived in it before). The First Home Buyers Assistance Scheme provides a full stamp duty exemption on new or existing homes up to $800,000, and a concession on homes up to $1,000,000 –saving up to $30,000. Federally, the First Home Guarantee lets eligible buyers purchase with just 5% deposit and no LMI.</p>
+      <a class="btn-primary" href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener">Check your eligibility</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTY TOOLS -->
+<section class="tools-section">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Free Property Tools</span>
+    <h2 class="section-title reveal reveal-delay-1">Not ready to book? Run the numbers first</h2>
+    <div class="tools-grid">
+      <a class="tool-card reveal reveal-delay-1" href="https://jrwfinance.com.au/deposit-calculator" target="_blank" rel="noopener">
+        <div class="tool-num">01</div>
+        <div class="tool-title">Deposit Calculator</div>
+        <div class="tool-desc">Map out your savings target accounting for LMI thresholds and government schemes</div>
+        <div class="tool-arrow">Open &#8594;</div>
+      </a>
+      <a class="tool-card reveal reveal-delay-2" href="https://jrwfinance.com.au/refinance-calculator" target="_blank" rel="noopener">
+        <div class="tool-num">02</div>
+        <div class="tool-title">Refinance Calculator</div>
+        <div class="tool-desc">Compare your current rate against refinancing options and see long-term savings</div>
+        <div class="tool-arrow">Open &#8594;</div>
+      </a>
+      <a class="tool-card reveal reveal-delay-3" href="https://jrwfinance.com.au/rent-vs-buy-calculator" target="_blank" rel="noopener">
+        <div class="tool-num">03</div>
+        <div class="tool-title">Buy vs Rent Calculator</div>
+        <div class="tool-desc">Evaluate renting versus buying &#8211; and explore what rentvesting might look like</div>
+        <div class="tool-arrow">Open &#8594;</div>
+      </a>
+      <a class="tool-card reveal reveal-delay-4" href="https://jrwfinance.com.au/stamp-duty-calculator" target="_blank" rel="noopener">
+        <div class="tool-num">04</div>
+        <div class="tool-title">Stamp Duty Calculator</div>
+        <div class="tool-desc">Instant NSW stamp duty estimate &#8211; check your exemption and concession eligibility</div>
+        <div class="tool-arrow">Open &#8594;</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Common Questions</span>
+    <h2 class="section-title reveal reveal-delay-1">Home loans in Sydney &#8211; answered</h2>
+    <div class="faq-list">
+      
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>Can I buy in Sydney with a 5% deposit?</span>
+        <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="faq-a">Yes. Through the federal First Home Guarantee scheme, eligible first home buyers can purchase with just a 5% deposit and avoid paying Lenders Mortgage Insurance (LMI) — saving $20,000–$40,000 in upfront costs. Income and property price caps apply. We assess your eligibility as part of your initial strategy call.</div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>How much can I borrow on a $120,000 salary in Sydney?</span>
+        <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="faq-a">On a $120,000 gross salary with typical living expenses, most lenders will assess borrowing capacity in the range of $600,000–$720,000 — though this varies significantly by lender, your expenses, existing debts and credit history. Some specialist lenders assess income differently and may offer more. We run your numbers across multiple lenders to find your real ceiling, not just one bank's answer.</div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>What Sydney suburbs qualify for first home buyer stamp duty exemptions?</span>
+        <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="faq-a">The NSW stamp duty exemption applies to the purchase price, not the suburb — new homes up to $800,000 are fully exempt, with concessions up to $1,000,000. This opens up options in many western and outer-ring suburbs including Penrith, Liverpool, Campbelltown, Blacktown and the Hills District. We map out which areas fit your budget and grant eligibility.</div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>How long does formal mortgage approval take in NSW?</span>
+        <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="faq-a">Once we submit a complete application, most lenders return formal approval within 3–10 business days for standard purchases. Complex scenarios — self-employed income, unusual property types, tight timeframes — can take longer. We prepare your application thoroughly upfront to avoid back-and-forth, and we know which lenders move fastest when time matters.</div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>Can I use equity from my Sydney property to buy an investment?</span>
+        <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="faq-a">Yes — and it's one of the most common strategies we help clients with. If your Sydney property has grown in value, you may be able to access that equity as a deposit for your next purchase without saving from scratch. We calculate your usable equity, identify the right loan structure and help you buy your next property without selling the first.</div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- AREA COVERAGE -->
+<section class="coverage-section">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Areas We Serve</span>
+    <h2 class="section-title reveal reveal-delay-1">Serving buyers across Sydney and surrounds</h2>
+    <p class="coverage-text reveal reveal-delay-2">We help clients purchase, invest and refinance across the greater Sydney region &#8211; from the inner suburbs and CBD fringe through to outer growth corridors and surrounding areas. If you're buying or refinancing anywhere in New South Wales, we can help.</p>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="reveal">Ready to buy or refinance in Sydney?</h2>
+    <p class="reveal reveal-delay-1">Book a free 30-minute strategy call. No obligation, no fee &#8211; just clear advice from a team that knows the Sydney market.</p>
+    <div class="cta-group reveal reveal-delay-2">
+      <a class="btn-primary" href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a free strategy call</a>
+      <a class="btn-ghost" href="https://jrwfinance.com.au" target="_blank" rel="noopener">Visit JRW Finance</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand-row">
+    <div class="footer-brand">
+      <a href="https://jrwfinance.com.au" target="_blank" rel="noopener">
+        <img src="../website/public/logo-landscape.webp" alt="JRW Finance"
+          onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<span style=\'color:#dfe777;font-weight:800;font-size:15px;letter-spacing:-0.01em;\'>JRW Finance</span>')" />
+      </a>
+      <p>Smarter lending, better outcomes. We help Australians buy, invest and refinance with confidence.</p>
+      <div class="footer-social">
+    <a class="social-icon" href="https://instagram.com/jrw.finance" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a class="social-icon" href="https://tiktok.com/@jrwfinance" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+    </a>
+    <a class="social-icon" href="https://youtube.com/@jrwfinance" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+    </a>
+    <a class="social-icon" href="https://facebook.com/jrwfinance" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+    </a>
+    <a class="social-icon" href="https://open.spotify.com/show/2EZdHnX9V2pGbAQ71xcSq7" target="_blank" rel="noopener" aria-label="Spotify" title="Spotify">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    </a></div>
+    </div>
+    <a class="btn-primary" href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener" style="align-self:center;white-space:nowrap">Book a call</a>
+  </div>
+
+  <div class="footer-links-grid">
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="https://jrwfinance.com.au/home-loans" target="_blank" rel="noopener">Home Loans</a></li>
+        <li><a href="https://jrwfinance.com.au/first-home-buyers" target="_blank" rel="noopener">First Home Buyers</a></li>
+        <li><a href="https://jrwfinance.com.au/investment-loans" target="_blank" rel="noopener">Investment Loans</a></li>
+        <li><a href="https://jrwfinance.com.au/refinancing" target="_blank" rel="noopener">Refinancing</a></li>
+        <li><a href="https://jrwfinance.com.au/smsf-loans" target="_blank" rel="noopener">SMSF Loans</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="https://jrwfinance.com.au/our-story" target="_blank" rel="noopener">Our Story</a></li>
+        <li><a href="https://jrwfinance.com.au/insights" target="_blank" rel="noopener">Insights</a></li>
+        <li><a href="https://jrwfinance.com.au/property-tools" target="_blank" rel="noopener">Property Tools</a></li>
+        <li><a href="https://jrwfinance.com.au/referral-program" target="_blank" rel="noopener">Refer &amp; Earn</a></li>
+        <li><a href="https://jrwfinance.com.au/faq" target="_blank" rel="noopener">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p class="contact-line"><a href="mailto:hello@jrwfinance.com.au">hello@jrwfinance.com.au</a></p>
+      <p class="contact-line" style="margin-top:10px">Suite 302, 13/15 Wentworth Ave, Sydney NSW 2000</p>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="https://jrwfinance.com.au/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a></li>
+        <li><a href="https://jrwfinance.com.au/terms-and-conditions" target="_blank" rel="noopener">Terms &amp; Conditions</a></li>
+        <li><a href="https://jrwfinance.com.au/feedback-and-complaints" target="_blank" rel="noopener">Feedback &amp; Complaints</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-legal">
+      JRW Finance Group Pty Ltd &#183; ABN 57 691 406 318 &#183; Credit Representative 574207 authorised under Australian Credit Licence 486112. General advice only &#8211; not financial advice. &copy; 2026 JRW Finance Group.
+    </p>
+    <div class="footer-legal-links">
+      <a href="https://jrwfinance.com.au/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+      <a href="https://jrwfinance.com.au/terms-and-conditions" target="_blank" rel="noopener">Terms &amp; Conditions</a>
+      <a href="https://jrwfinance.com.au/feedback-and-complaints" target="_blank" rel="noopener">Feedback &amp; Complaints</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE STICKY -->
+<div class="mobile-sticky">
+  <a href="https://outlook.office.com/book/JRWFinanceIntroduction@jrwfinance.com.au/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a free call &#8594;</a>
+</div>
+
+<script>
+  // Scroll-reveal via IntersectionObserver
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible')
+        observer.unobserve(e.target)
+      }
+    })
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' })
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+</script>
+
+</body>
+</html>

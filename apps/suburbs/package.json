@@ -1,0 +1,11 @@
+{
+  "name": "jrw-suburbs",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev src/worker.js --port 4104",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
