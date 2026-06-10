@@ -43,12 +43,15 @@ jobs:
         with:
           node-version: '24'
           cache: 'npm'
+          cache-dependency-path: apps/website/package-lock.json
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
+        working-directory: apps/website
 
       - name: Build website
-        run: npm run build:website
+        run: npm run build
+        working-directory: apps/website
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
