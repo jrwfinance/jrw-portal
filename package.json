@@ -3,13 +3,16 @@
   "private": true,
   "workspaces": [
     "apps/client-portal",
-    "apps/broker-admin"
+    "apps/broker-admin",
+    "apps/website"
   ],
   "scripts": {
     "dev:portal":   "npm run dev --workspace=apps/client-portal",
     "dev:admin":    "npm run dev --workspace=apps/broker-admin",
-    "build":        "npm run build --workspace=apps/client-portal && npm run build --workspace=apps/broker-admin",
+    "dev:website":  "npm run dev --workspace=apps/website",
+    "build":        "npm run build --workspace=apps/client-portal && npm run build --workspace=apps/broker-admin && npm run build --workspace=apps/website",
     "build:portal": "npm run build --workspace=apps/client-portal",
-    "build:admin":  "npm run build --workspace=apps/broker-admin"
+    "build:admin":  "npm run build --workspace=apps/broker-admin",
+    "build:website":"npm run build --workspace=apps/website"
   }
 }
