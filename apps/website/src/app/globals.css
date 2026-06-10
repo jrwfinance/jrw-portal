@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand tokens as CSS custom properties */
+    --brand-deepest:   #0d1002;
+    --brand-darker:    #1e2203;
+    --brand-dark:      #2e3105;
+    --brand-lime:      #dfe777;
+    --brand-lime-dim:  #c8d060;
+    --brand-ink:       #f5f7e8;
+    --brand-ink-dim:   rgba(245,247,232,0.55);
+    --brand-ink-faint: rgba(245,247,232,0.25);
+    --brand-lime-faint: rgba(223,231,119,0.10);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--brand-deepest);
+    color: var(--brand-ink);
+    font-family: var(--font-barlow), -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-bricolage), sans-serif;
+    line-height: 1.05;
+  }
+
+  ::selection {
+    background-color: var(--brand-lime);
+    color: var(--brand-dark);
+  }
+}
+
+@layer utilities {
+  /* Text wrapping */
+  .balance  { text-wrap: balance; }
+  .pretty   { text-wrap: pretty; }
+
+  /* Brand lime opacity utilities not covered by tailwind config */
+  .text-ink         { color: var(--brand-ink); }
+  .text-ink-dim     { color: var(--brand-ink-dim); }
+  .text-ink-faint   { color: var(--brand-ink-faint); }
+
+  /* Thin rule separators */
+  .rule-lime { border-color: rgba(223,231,119,0.15); }
+  .rule-white { border-color: rgba(245,247,232,0.08); }
+
+  /* Section spacing */
+  .section-y { padding-top: clamp(80px,10vw,140px); padding-bottom: clamp(80px,10vw,140px); }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
